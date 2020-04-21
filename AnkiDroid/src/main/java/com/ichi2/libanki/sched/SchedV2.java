@@ -26,10 +26,14 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteConstraintException;
 import android.graphics.Typeface;
+import android.os.Build;
 import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
 import android.text.style.StyleSpan;
 
+import com.hjl.anki.AvoiderIntervalSelector;
+import com.hjl.anki.DefaultIntervalSelector;
+import com.hjl.anki.IntervalSelector;
 import com.ichi2.anki.R;
 import com.ichi2.async.CollectionTask;
 import com.ichi2.libanki.Card;
@@ -45,7 +49,6 @@ import com.ichi2.utils.JSONException;
 import com.ichi2.utils.JSONObject;
 
 import java.lang.ref.WeakReference;
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
@@ -1400,11 +1403,16 @@ public class SchedV2 extends AbstractSched {
         return ivl4;
     }
 
+    private IntervalSelector intervalSelector = Build.VERSION.SDK_INT >= Build.VERSION_CODES.O ?
+            new AvoiderIntervalSelector() :
+            new DefaultIntervalSelector();
+
     protected int _fuzzedIvl(int ivl) {
         int[] minMax = _fuzzedIvlRange(ivl);
         // Anki's python uses random.randint(a, b) which returns x in [a, b] while the eq Random().nextInt(a, b)
         // returns x in [0, b-a), hence the +1 diff with libanki
-        return (new Random().nextInt(minMax[1] - minMax[0] + 1)) + minMax[0];
+        //return (new Random().nextInt(minMax[1] - minMax[0] + 1)) + minMax[0];
+        return intervalSelector.select(minMax[0], minMax[1]);
     }
 
 
