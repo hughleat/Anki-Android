@@ -81,6 +81,7 @@ import android.widget.TextView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.afollestad.materialdialogs.util.TypefaceHelper;
+import com.hjl.anki.AnkiJS;
 import com.ichi2.anim.ActivityTransitionAnimation;
 import com.ichi2.anim.ViewAnimation;
 import com.ichi2.anki.cardviewer.CardAppearance;
@@ -513,6 +514,7 @@ public abstract class AbstractFlashcardViewer extends NavigationDrawerActivity {
                 cardChanged = true;  // Keep track of that so we can run a bit of new-card code
             }
             mCurrentCard = values[0].getCard();
+            AnkiJS.setCard(mCurrentCard);
             if (mCurrentCard == null) {
                 // If the card is null means that there are no more cards scheduled for review.
                 mNoMoreCards = true;
@@ -577,6 +579,7 @@ public abstract class AbstractFlashcardViewer extends NavigationDrawerActivity {
             }
 
             mCurrentCard = nextCard;
+            AnkiJS.setCard(mCurrentCard);
             if (mCurrentCard == null) {
                 // If the card is null means that there are no more cards scheduled for review.
                 mNoMoreCards = true; // other handlers use this, toggle state every time through
@@ -1479,6 +1482,7 @@ public abstract class AbstractFlashcardViewer extends NavigationDrawerActivity {
         // Start at the most zoomed-out level
         webView.getSettings().setLoadWithOverviewMode(true);
         webView.getSettings().setJavaScriptEnabled(true);
+        AnkiJS.addToWebView(webView);
         webView.setWebChromeClient(new AnkiDroidWebChromeClient());
         // Problems with focus and input tags is the reason we keep the old type answer mechanism for old Androids.
         webView.setFocusableInTouchMode(mUseInputTag);
