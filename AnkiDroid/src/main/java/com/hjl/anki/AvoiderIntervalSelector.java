@@ -43,6 +43,7 @@ public class AvoiderIntervalSelector implements IntervalSelector {
         int dom = date.getDayOfMonth();
         Month month = date.getMonth();
 
+        if(dow == DayOfWeek.FRIDAY || dow == DayOfWeek.MONDAY) return 0.90;
         if(dow == DayOfWeek.SATURDAY || dow == DayOfWeek.SUNDAY) return 0.01;
         if(dom == 30 && month == Month.JULY) return 0.01;
         if(dom == 25 && month == Month.DECEMBER) return 0.01;
