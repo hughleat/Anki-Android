@@ -80,9 +80,9 @@ public class Info extends AnkiActivity {
         });
 
         // HJL: Removed to get rid of any chance Google thinks this is "ad that is not clearly marked as an ad".
-        /*Button marketButton = findViewById(R.id.market);
+        Button marketButton = findViewById(R.id.market);
         marketButton.setOnClickListener(arg0 -> {
-            if (mType == TYPE_ABOUT) {
+            /*if (mType == TYPE_ABOUT) {
                 final String intentUri = getString(
                         CompatHelper.isKindle() ? R.string.link_market_kindle : R.string.link_market);
                 final Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(intentUri));
@@ -94,7 +94,7 @@ public class Info extends AnkiActivity {
                     UIUtils.showThemedToast(Info.this, errorMsg, true);
                 }
                 return;
-            }
+            }*/
             setResult(RESULT_OK);
             switch (mType) {
                 case TYPE_NEW_VERSION:
@@ -103,7 +103,7 @@ public class Info extends AnkiActivity {
                     break;
             }
             finishWithAnimation();
-        });*/
+        });
 
         StringBuilder sb = new StringBuilder();
         switch (mType) {
