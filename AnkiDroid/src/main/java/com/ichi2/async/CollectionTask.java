@@ -62,7 +62,7 @@ import java.util.TreeMap;
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
-import java.util.zip.ZipFile;
+import org.apache.commons.compress.archivers.zip.ZipFile;
 
 import androidx.annotation.Nullable;
 import timber.log.Timber;
@@ -854,16 +854,25 @@ public class CollectionTask extends BaseAsyncTask<CollectionTask.TaskData, Colle
             Card newCard = null;
             try {
                 long cid = col.undo();
-                if (cid != 0 && cid != -1) {
+                if (cid == 0) {
+                    // /* card schedule change undone, reset and get
+                    // new card */
+                    Timber.d("Single card non-review change undo succeeded");
+                    col.reset();
+                    newCard = sched.getCard();
+                } else if (cid > 0) {
                     // a review was undone,
+                     /* card review undone, set up to review that card again */
+                    Timber.d("Single card review undo succeeded");
                     newCard = col.getCard(cid);
                     newCard.startTimer();
                     col.reset();
                     col.getSched().decrementCounts(newCard);
                     sched.deferReset();
-                } else if (cid != -1){
-                    col.reset();
-                    newCard = sched.getCard();
+                } else {
+                    // cid < 0
+                    /* multi-card action undone, no action to take here */
+                    Timber.d("Multi-select undo succeeded");
                 }
                 // TODO: handle leech undoing properly
                 publishProgress(new TaskData(newCard, 0));
@@ -980,13 +989,14 @@ public class CollectionTask extends BaseAsyncTask<CollectionTask.TaskData, Colle
             return new TaskData(false);
         }
 
-        long result = col.fixIntegrity(new ProgressCallback(this, AnkiDroidApp.getAppResources()));
-        if (result == -1) {
-            return new TaskData(false);
+        Collection.CheckDatabaseResult result = col.fixIntegrity(new ProgressCallback(this, AnkiDroidApp.getAppResources()));
+        if (result.getFailed()) {
+            //we can fail due to a locked database, which requires knowledge of the failure.
+            return new TaskData(false, new Object[] { result });
         } else {
             // Close the collection and we restart the app to reload
             CollectionHelper.getInstance().closeCollection(true, "Check Database Completed");
-            return new TaskData(0, result, true);
+            return new TaskData(true, new Object[] { result });
         }
     }
 
@@ -995,6 +1005,7 @@ public class CollectionTask extends BaseAsyncTask<CollectionTask.TaskData, Colle
         Timber.d("doInBackgroundRepairDeck");
         Collection col = CollectionHelper.getInstance().getCol(mContext);
         if (col != null) {
+            Timber.i("RepairDeck: Closing collection");
             col.close(false);
         }
         return new TaskData(BackupManager.repairCollection(col));
@@ -1083,7 +1094,7 @@ public class CollectionTask extends BaseAsyncTask<CollectionTask.TaskData, Colle
         String colname = "collection.anki21";
         ZipFile zip;
         try {
-            zip = new ZipFile(new File(path), ZipFile.OPEN_READ);
+            zip = new ZipFile(new File(path));
         } catch (IOException e) {
             Timber.e(e, "doInBackgroundImportReplace - Error while unzipping");
             AnkiDroidApp.sendExceptionReport(e, "doInBackgroundImportReplace0");
@@ -1096,6 +1107,7 @@ public class CollectionTask extends BaseAsyncTask<CollectionTask.TaskData, Colle
             }
             Utils.unzipFiles(zip, dir.getAbsolutePath(), new String[] { colname, "media" }, null);
         } catch (IOException e) {
+            AnkiDroidApp.sendExceptionReport(e, "doInBackgroundImportReplace - unzip");
             return new TaskData(-2, null, false);
         }
         String colFile = new File(dir, colname).getAbsolutePath();
@@ -1117,6 +1129,7 @@ public class CollectionTask extends BaseAsyncTask<CollectionTask.TaskData, Colle
             } catch (Exception e2) {
                 // do nothing
             }
+            AnkiDroidApp.sendExceptionReport(e, "doInBackgroundImportReplace - open col");
             return new TaskData(-2, null, false);
         } finally {
             if (tmpCol != null) {
@@ -1883,6 +1896,22 @@ public class CollectionTask extends BaseAsyncTask<CollectionTask.TaskData, Colle
 
         public Object[] getObjArray() {
             return mObjects;
+        }
+
+
+        public <T> boolean objAtIndexIs(int i, Class<T> clazz) {
+            if (getObjArray() == null) {
+                return false;
+            }
+            if (getObjArray().length <= i) {
+                return false;
+            }
+            Object val = getObjArray()[i];
+            if (val == null) {
+                return false;
+            }
+
+            return clazz.isAssignableFrom(val.getClass());
         }
     }
 

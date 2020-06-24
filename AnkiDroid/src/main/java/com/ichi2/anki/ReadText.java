@@ -36,6 +36,9 @@ import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Locale;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.VisibleForTesting;
 import timber.log.Timber;
 
 public class ReadText {
@@ -51,6 +54,9 @@ public class ReadText {
     private static Compat compat = CompatHelper.getCompat();
     private static Object mTtsParams = compat.initTtsParams();
 
+    public static int getmQuestionAnswer() {
+        return mQuestionAnswer;
+    }
 
     public static void speak(String text, String loc, int queueMode) {
         int result = mTts.setLanguage(localeFromStringIgnoringScriptAndExtensions(loc));
@@ -69,7 +75,7 @@ public class ReadText {
         }
     }
 
-    
+
     public static String getLanguage(long did, int ord, int qa) {
         return MetaDB.getLanguage(mReviewer.get(), did, ord, qa);
     }
@@ -84,6 +90,7 @@ public class ReadText {
      * @param qa   The card question or card answer
      */
     public static void selectTts(String text, long did, int ord, int qa) {
+        //TODO: Consolidate with ReadText.readCardSide
         mTextToSpeak = text;
         mQuestionAnswer = qa;
         mDid = did;
@@ -158,9 +165,9 @@ public class ReadText {
      * @param did              Index of the deck containing the card.
      * @param ord              The card template ordinal.
      */
-    public static void readCardSide(int cardSide, String cardSideContents, long did, int ord) {
+    public static void readCardSide(int cardSide, String cardSideContents, long did, int ord, String clozeReplacement) {
         boolean isFirstText = true;
-        for (TtsParser.LocalisedText textToRead : TtsParser.getTextsToRead(cardSideContents)) {
+        for (TtsParser.LocalisedText textToRead : TtsParser.getTextsToRead(cardSideContents, clozeReplacement)) {
             if (!textToRead.getText().isEmpty()) {
                 textToSpeech(textToRead.getText(), did, ord, cardSide,
                         textToRead.getLocaleCode(),
@@ -272,7 +279,7 @@ public class ReadText {
                 TextToSpeech.LANG_AVAILABLE;
     }
 
-    public static void initializeTts(Context context) {
+    public static void initializeTts(Context context, @NonNull ReadTextListener listener) {
         // Store weak reference to Activity to prevent memory leak
         mReviewer = new WeakReference<>(context);
         // Create new TTS object and setup its onInit Listener
@@ -297,6 +304,7 @@ public class ReadText {
                                 String[] text = ReadText.sTextQueue.remove(0);
                                 ReadText.speak(text[0], text[1], TextToSpeech.QUEUE_FLUSH);
                             }
+                            listener.onDone();
                         }
                         @Override
                         @Deprecated
@@ -365,5 +373,15 @@ public class ReadText {
             }
             mTts.stop();
         }
+    }
+
+    interface ReadTextListener{
+        public void onDone();
+    }
+
+    @VisibleForTesting(otherwise = VisibleForTesting.NONE)
+    @Nullable
+    public static String getTextToSpeak() {
+        return mTextToSpeak;
     }
 }

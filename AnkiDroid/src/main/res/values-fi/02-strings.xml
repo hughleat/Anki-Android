@@ -39,7 +39,7 @@
 -->
 <resources>
     <!-- How to format a percentage shown in the summary field of a preference -->
-    <string name="preference_summary_percentage">XXX%</string>
+    <string name="preference_summary_percentage">XXX %</string>
     <!-- Navigation drawer strings -->
     <string name="drawer_open">Avaa laatikosto</string>
     <string name="drawer_close">Sulje laatikosto</string>
@@ -64,6 +64,7 @@
     <string name="hide_whiteboard">Piilota kirjoitustaulu</string>
     <string name="clear_whiteboard">Tyhjennä kirjoitustaulu</string>
     <string name="replay_audio">Toista ääni</string>
+    <string name="toggle_mic_tool_bar">Check Pronunciation</string>
     <string name="leech_suspend_notification">Kortti on merkitty vaikeaksi ja jäädytetty</string>
     <string name="leech_notification">Kortti on merkitty vaikeaksi</string>
     <string name="corrupt_font">Vioittunut kirjasintiedosto %s</string>
@@ -92,9 +93,9 @@
         <item>Kertausväli</item>
         <item>Ease</item>
         <item>Due</item>
-        <item>Changed</item>
-        <item>Created</item>
-        <item>Edited</item>
+        <item>Muutettu</item>
+        <item>Luotu</item>
+        <item>Muokattu</item>
     </string-array>
     <!-- Custom study options -->
     <string name="custom_study_increase_new_limit">Lisää tämän päivän uusien korttien rajoitusta</string>
@@ -108,7 +109,10 @@
     <string name="cardeditor_title_add_note">Lisää merkintä</string>
     <string name="cardeditor_title_edit_card">Muokkaa merkintää</string>
     <string name="discard_unsaved_changes">Sulje ja menetä muutokset?</string>
-    <string name="factadder_saving_error">Virhe tallennettaessa merkintää</string>
+    <string name="note_editor_no_cards_created">No cards created. Please fill in more fields</string>
+    <string name="note_editor_no_first_field">The first field is empty</string>
+    <string name="note_editor_no_cloze_delations">This note type must contain cloze deletions</string>
+    <string name="note_editor_no_cards_created_all_fields">The current note type did not produce any cards.\nPlease choose another note type, or click ‘Cards’ and add a field substitution</string>
     <string name="saving_facts">Tallennetaan merkintää</string>
     <string name="saving_model">Saving note type</string>
     <string name="add">Lisää</string>
@@ -117,7 +121,7 @@
     <string name="select">Valitse</string>
     <string name="saving_changes">Tallennetaan muutoksia&#8230;</string>
     <string name="reordering_cards">Uudelleenjärjestetään kortteja...</string>
-    <string name="field_remapping">%1$s (\"%2$s\":sta)</string>
+    <string name="field_remapping">%1$s (”%2$s”:sta)</string>
     <string name="confirm_map_cards_to_nothing">Kortit, joita ei ole liitetty mihinkään, poistetaan. Jos muistiinpanoon ei liity jäljelle jääviä kortteja, se katoaa. Oletko varma, että haluat jatkaa?</string>
     <plurals name="timebox_reached">
         <item quantity="one">%1$d korttia opiskeltu ajassa %2$s</item>
@@ -149,7 +153,7 @@
     <string name="check_media">Tarkista media</string>
     <string name="empty_cards">Tyhjät kortit</string>
     <string name="check_db_message">Tarkistetaan tietokantaa&#8230;</string>
-    <string name="empty_card_warning">Tämä kortti on tyhjä. Käytä \"Tyhjät kortit\" vaihtoehtoa pakka-luettelon -valikosta.</string>
+    <string name="empty_card_warning">Tämä kortti on tyhjä. Käytä ”Tyhjät kortit” vaihtoehtoa pakka-luettelon -valikosta.</string>
     <string name="unknown_type_field_warning">Kirjoita vastaus: tuntematon kenttä %s</string>
     <string name="delete_deck">Poistetaan pakkaa&#8230;</string>
     <string name="show_hint">Näytä %s</string>
@@ -159,18 +163,25 @@
     <string name="import_select_title">Valitse tuotava tiedosto</string>
     <string name="import_message_add">Lisää</string>
     <string name="import_message_replace_confirm">Poistetaan nykyinen kokoelma ja korvataan se tiedoston %s tiedoilla. Haluatko varmasti jatkaa?</string>
-    <string name="import_message_add_confirm">Lisää \"%s\" kokoelmaan? Se voi kestää pitkään</string>
+    <string name="import_message_add_confirm">Lisää ”%s” kokoelmaan? Se voi kestää pitkään</string>
     <string name="import_log_no_apkg">Tämä ei ole salittu Anki-tiedosto</string>
+    <string name="import_log_failed_unzip">Failed to unzip apkg: %s</string>
+    <string name="import_log_failed_copy_to">Failed to copy apkg to %s</string>
+    <string name="import_log_failed_validate">apkg failed validation</string>
+    <string name="import_log_insufficient_space">There is not enough space to unzip the package. Needed %1$d, available %2$d</string>
+    <string name="import_succeeded_but_check_database">Data import succeeded but post-import cleanup failed. Run check database later. Root cause: %s</string>
     <string name="import_error_unhandled_request">Unable to process import request</string>
     <string name="import_error_exception">Failed to import package\n\n%s</string>
-    <string name="import_error_not_apkg_extension">Tiedostolla \"%s\" ei ole .apkg tai .colpkg päätettä</string>
+    <string name="import_error_not_apkg_extension">Tiedostolla ”%s” ei ole .apkg tai .colpkg päätettä</string>
+    <string name="import_error_load_imported_database">Anki Database (.anki2) replacements are not yet supported. Please see the manual for replacement instructions.</string>
     <string name="import_error_content_provider">Valittua tiedostoa ei voitu tuoda automaattisesti AnkiDroidiin. Katso käyttöohjeesta, kuinka tuoda manuaalisesti anki-tiedostoja: \n%s</string>
+    <string name="import_error_copy_file_to_cache">copyFileToCache() failed (possibly out of storage space)</string>
     <string name="import_replacing">Korvataan kokoelmaa&#8230;</string>
     <string name="import_interrupted">Import interrupted</string>
     <string name="export_include_schedule">Myös ajoitukset</string>
     <string name="export_include_media">Myös media</string>
     <string name="confirm_apkg_export">Tuo kokoelma Anki-tiedostona?</string>
-    <string name="confirm_apkg_export_deck">Tallenna \"%s\" apkg-tiedostona?</string>
+    <string name="confirm_apkg_export_deck">Tallenna ”%s” apkg-tiedostona?</string>
     <string name="export_in_progress">Tuodaan Anki-tiedostoa...</string>
     <string name="export_successful_title">Lähetä Anki-tiedosto?</string>
     <string name="export_send_button">Lähetä</string>
@@ -178,7 +189,7 @@
     <string name="export_send_no_handlers">Sovellusta apkg:n käsittelyyn ei ole olemassa. Tallennetaan...</string>
     <string name="export_save_apkg_successful">Anki-tiedosto tallennettu.</string>
     <string name="export_save_apkg_unsuccessful">Anki-tiedoston tallennus epäonnistui.</string>
-    <string name="export_successful">Tiedosto \"%s\" tuotiin. Haluatko lähettää sen toisella sovelluksella?</string>
+    <string name="export_successful">Tiedosto ”%s” tuotiin. Haluatko lähettää sen toisella sovelluksella?</string>
     <string name="export_email_subject">AnkiDroid toi kortit: %s</string>
     <string name="export_email_text"><![CDATA[        Hei!
         <br/><br/>
@@ -198,8 +209,8 @@
     <string name="sched_end">(loppu)</string>
     <string name="sched_unbury_action">Nähdäksesi ne nyt, klikkaa alla olevaa Poista piilotus -painetta</string>
     <string name="sched_has_buried">Liittyviä tai piilotettuja kortteja on viivästetty myöhempään istuntoon.</string>
-    <string name="tag_editor_add_feedback">Paina \"%2$s\" vahvistaaksesi \"%1$s\":n lisääminen</string>
-    <string name="tag_editor_add_feedback_existing">Olemassa oleva tunniste \"%1$s\" valittu</string>
+    <string name="tag_editor_add_feedback">Paina ”%2$s” vahvistaaksesi ”%1$s”:n lisääminen</string>
+    <string name="tag_editor_add_feedback_existing">Olemassa oleva tunniste ”%1$s” valittu</string>
     <string name="lookup_hint">Kun olet kopioinut tekstin, napauta korttia nähdäksesi hakuikonin</string>
     <!-- Time spans -->
     <plurals name="time_span_seconds">
@@ -235,7 +246,7 @@
     <string name="filtered_deck_name">Suodatettu Pakka</string>
     <string name="reminder_title">Älä unohda opiskella tänään!</string>
     <plurals name="reminder_text">
-        <item quantity="one">%2$d kortti kerrattavana %1s :ssa</item>
+        <item quantity="one">%2$d kortti kerrattavana %1$s :ssa</item>
         <item quantity="other">%2$d korttia kerrattavana %1$s :ssa</item>
     </plurals>
     <!-- Currently only used if exporting APKG fails -->
@@ -251,4 +262,15 @@
     <string name="multimedia_editor_image_compression_failed"><![CDATA[Camera images may be large. You may wish to compress & resize images in the media directory]]></string>
     <string name="no_browser_notification">No browser found，please visit web page by pc or mobile: </string>
     <string name="no_outgoing_link_in_cardbrowser">External page link in card is not supported.</string>
+    <!-- The name of the deck which corrupt cards will be moved to -->
+    <string name="check_integrity_recovered_deck_name">Recovered Cards</string>
+    <!-- Deckpicker Background -->
+    <string name="background_image_title">Background</string>
+    <string name="choose_an_image">Valitse kuva</string>
+    <!-- Card Template Browser Appearance -->
+    <string name="restore_default">Restore Default</string>
+    <string name="reviewer_tts_cloze_spoken_replacement">Blank</string>
+    <!-- in options menu & Navigation Drawer -->
+    <string name="ankidroid_turn_on_fullscreen_nav_drawer">Please turn on fullscreen to use Show Navigation Drawer using JavaScript.</string>
+    <string name="ankidroid_turn_on_fullscreen_options_menu">Please turn on fullscreen to use Show Options Menu using JavaScript.</string>
 </resources>

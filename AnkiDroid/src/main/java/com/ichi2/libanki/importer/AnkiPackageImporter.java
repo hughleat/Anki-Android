@@ -18,6 +18,7 @@ package com.ichi2.libanki.importer;
 
 
 import com.google.gson.stream.JsonReader;
+import com.ichi2.anki.AnkiDroidApp;
 import com.ichi2.anki.BackupManager;
 import com.ichi2.anki.CollectionHelper;
 import com.ichi2.anki.R;
@@ -33,7 +34,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.zip.ZipFile;
+import org.apache.commons.compress.archivers.zip.ZipFile;
 
 import timber.log.Timber;
 
@@ -52,32 +53,46 @@ public class AnkiPackageImporter extends Anki2Importer {
         publishProgress(0, 0, 0);
         File tempDir = new File(new File(mCol.getPath()).getParent(), "tmpzip");
         Collection tmpCol; //self.col into Anki.
+        Timber.d("Attempting to import package %s", mFile);
         try {
             // We extract the zip contents into a temporary directory and do a little more
             // validation than the desktop client to ensure the extracted collection is an apkg.
             String colname = "collection.anki21";
             try {
                 // extract the deck from the zip file
-                mZip = new ZipFile(new File(mFile), ZipFile.OPEN_READ);
+                mZip = new ZipFile(new File(mFile));
                 // v2 scheduler?
                 if (mZip.getEntry(colname) == null) {
                     colname = CollectionHelper.COLLECTION_FILENAME;
                 }
+
+                // Make sure we have sufficient free space
+                long uncompressedSize = Utils.calculateUncompressedSize(mZip);
+                long availableSpace = Utils.determineBytesAvailable(mCol.getPath());
+                Timber.d("Total uncompressed size will be: %d", uncompressedSize);
+                Timber.d("Total available size is:         %d", availableSpace);
+                if (uncompressedSize > availableSpace) {
+                    Timber.e("Not enough space to unzip, need %d, available %d", uncompressedSize, availableSpace);
+                    mLog.add(getRes().getString(R.string.import_log_insufficient_space, uncompressedSize, availableSpace));
+                    return;
+                }
+
                 Utils.unzipFiles(mZip, tempDir.getAbsolutePath(), new String[]{colname, "media"}, null);
             } catch (IOException e) {
                 Timber.e(e, "Failed to unzip apkg.");
-                mLog.add(getRes().getString(R.string.import_log_no_apkg));
+                AnkiDroidApp.sendExceptionReport(e, "AnkiPackageImporter::run() - unzip");
+                mLog.add(getRes().getString(R.string.import_log_failed_unzip, e.getLocalizedMessage()));
                 return;
             }
             String colpath = new File(tempDir, colname).getAbsolutePath();
             if (!(new File(colpath)).exists()) {
-                mLog.add(getRes().getString(R.string.import_log_no_apkg));
+                mLog.add(getRes().getString(R.string.import_log_failed_copy_to, colpath));
                 return;
             }
             tmpCol = Storage.Collection(mContext, colpath);
             try {
                 if (!tmpCol.validCollection()) {
-                    mLog.add(getRes().getString(R.string.import_log_no_apkg));
+                    mLog.add(getRes().getString(R.string.import_log_failed_validate));
                     return;
                 }
             } finally {
@@ -136,6 +151,9 @@ public class AnkiPackageImporter extends Anki2Importer {
                 }
             }
         } finally {
+            long availableSpace = Utils.determineBytesAvailable(mCol.getPath());
+            Timber.d("Total available size is: %d", availableSpace);
+
             // Clean up our temporary files
             if (tempDir.exists()) {
                 BackupManager.removeDir(tempDir);
@@ -150,7 +168,7 @@ public class AnkiPackageImporter extends Anki2Importer {
             try {
                 return new BufferedInputStream(mZip.getInputStream(mZip.getEntry(mNameToNum.get(fname))));
             } catch (IOException | NullPointerException e) {
-                Timber.e("Could not extract media file " + fname + "from zip file.");
+                Timber.e("Could not extract media file %s from zip file.", fname);
             }
         }
         return null;

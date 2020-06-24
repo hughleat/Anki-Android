@@ -21,6 +21,9 @@ import android.content.Intent;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.ichi2.anki.dialogs.DialogHandler;
+import com.ichi2.anki.exception.ConfirmModSchemaException;
+import com.ichi2.compat.customtabs.CustomTabActivityHelper;
 import com.ichi2.libanki.Collection;
 import com.ichi2.libanki.DB;
 import com.ichi2.libanki.Models;
@@ -48,6 +51,12 @@ public class RobolectricTest {
 
         // Robolectric can't handle our default sqlite implementation of requery, it needs the framework
         DB.setSqliteOpenHelperFactory(new FrameworkSQLiteOpenHelperFactory());
+
+        //Reset static variable for custom tabs failure.
+        CustomTabActivityHelper.resetFailed();
+
+        //See: #6140 - This global ideally shouldn't exist, but it will cause crashes if set.
+        DialogHandler.discardMessage();
     }
 
     @After
@@ -103,15 +112,58 @@ public class RobolectricTest {
     }
 
     protected Note addNoteUsingBasicModel(String front, String back) {
-        JSONObject basicModel = getCol().getModels().byName("Basic");
+        return addNoteUsingModelName("Basic", front, back);
+    }
+
+    protected Note addNoteUsingModelName(String name, String... fields) {
+        JSONObject model = getCol().getModels().byName(name);
         //PERF: if we modify newNote(), we can return the card and return a Pair<Note, Card> here.
         //Saves a database trip afterwards.
-        Note n = getCol().newNote(basicModel);
-        n.setField(0, front);
-        n.setField(1, back);
+        Note n = getCol().newNote(model);
+        for(int i = 0; i < fields.length; i++) {
+            n.setField(i, fields[i]);
+        }
         if (getCol().addNote(n) != 1) {
-            throw new IllegalStateException(String.format("Could not add note: {'%s', '%s'}", front, back));
+            throw new IllegalStateException(String.format("Could not add note: {%s}", String.join(", ", fields)));
         }
         return n;
+    }
+
+
+    protected String addNonClozeModel(String name, String[] fields, String qfmt, String afmt) {
+        JSONObject model = getCol().getModels().newModel(name);
+        for (int i = 0; i < fields.length; i++) {
+            addField(model, fields[i]);
+        }
+        model.put(FlashCardsContract.CardTemplate.QUESTION_FORMAT, qfmt);
+        model.put(FlashCardsContract.CardTemplate.ANSWER_FORMAT, afmt);
+        getCol().getModels().add(model);
+        getCol().getModels().flush();
+        return name;
+    }
+
+
+    private void addField(JSONObject model, String name) {
+        Models models = getCol().getModels();
+
+        try {
+            models.addField(model, models.newField(name));
+        } catch (ConfirmModSchemaException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    protected long addDeck(String deckName) {
+        return getCol().getDecks().id(deckName, true);
+    }
+
+    protected long addDynamicDeck(String name) {
+        return getCol().getDecks().newDyn(name);
+    }
+
+    protected void ensureCollectionLoadIsSynchronous() {
+        //HACK: We perform this to ensure that onCollectionLoaded is performed synchronously when startLoadingCollection
+        //is called.
+        getCol();
     }
 }

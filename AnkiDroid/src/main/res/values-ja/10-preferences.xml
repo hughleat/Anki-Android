@@ -79,6 +79,8 @@
     <string name="image_zoom">画像の拡大・縮小</string>
     <string name="button_size">解答表示ボタン・回答ボタンのサイズ</string>
     <string name="card_browser_font_size">ブラウザ用フォントサイズ</string>
+    <string name="card_browser_hide_media">Display filenames in card browser</string>
+    <string name="card_browser_hide_media_summary">Display media filenames in the card browser question/answer fields</string>
     <string name="col_path">AnkiDroidディレクトリ</string>
     <string name="fullscreen_review">フルスクリーンモード</string>
     <string name="full_screen_off">オフ</string>
@@ -92,6 +94,8 @@
     </string-array>
     <string name="gestures">ジェスチャーを有効にする</string>
     <string name="gestures_summ">回答やカード編集などの操作にジェスチャーを割り当てます</string>
+    <string name="gestures_allow_links">Ignore touch gestures on links</string>
+    <string name="gestures_allow_links_summary">Touch gestures will not be processed if a link/hint is pressed.</string>
     <string name="gestures_swipe_up">上にスワイプ</string>
     <string name="gestures_swipe_down">下にスワイプ</string>
     <string name="gestures_swipe_left">左にスワイプ</string>
@@ -103,6 +107,8 @@
     <string name="gestures_tap_right">右をタップ</string>
     <string name="more_scrolling_buttons">eReader</string>
     <string name="more_scrolling_buttons_summ">スクロール用に、漢字、カタカナ、絵文字、顔文字ボタンを使用</string>
+    <string name="card_browser_enable_external_context_menu">‘%s’ Menu</string>
+    <string name="card_browser_enable_external_context_menu_summary">Enables the ‘%s’ context menu globally</string>
     <string name="double_scrolling_gap">ダブルスクロール</string>
     <string name="double_scrolling_gap_summ">eReader とのスクロールのギャップを 2 倍にする場合、これを有効にします</string>
     <string name="swipe_sensitivity">スワイプ感度</string>
@@ -115,10 +121,6 @@
     <string name="sync_account_summ_logged_in">%s</string>
     <string name="automatic_sync_choice">自動同期</string>
     <string name="automatic_sync_choice_summ">最後に同期したのが10分以上前であった場合、アプリ起動/終了時に自動的に同期します</string>
-    <string name="fix_hebrew_text">ヘブライ語母音への対応</string>
-    <string name="fix_hebrew_text_summ">ヘブライ語の母音を適切に描画するための回避策です</string>
-    <string name="fix_hebrew_instructions">この設定は、ヘブライ語を表示するために、AndroidのRTLアルゴリズムをバイパスします\n\nこのが機能を使うために、フォント（Tohu.ttf）をダウンロードして手動で:\n%s/fonts/\n\nへコピーする必要があります。カードを変更する必要はありません。</string>
-    <string name="fix_hebrew_download_font">フォントをダウンロードします。</string>
     <string name="day_theme">デイ テーマ</string>
     <string name="night_theme">ナイト テーマ</string>
     <string name="default_font">標準フォント</string>
@@ -149,6 +151,8 @@
     <string name="pref_backup_max">保管するバックアップの世代数</string>
     <string name="show_estimates">回答ボタンに復習間隔を表示</string>
     <string name="show_estimates_summ">次の復習までの間隔を回答ボタンの中に表示します</string>
+    <string name="show_top_bar">Show Top Bar</string>
+    <string name="show_top_bar_summ">Show card counts, flag and mark in top bar</string>
     <string name="show_progress">残りのカード枚数を表示</string>
     <string name="show_progress_summ">画面左上に、残りのカード枚数を表示します（青: 新規、赤: 基本学習および再基本学習、緑: 復習）</string>
     <string name="show_eta">推定学習時間を表示</string>
@@ -267,7 +271,7 @@
     <string name="deck_conf_reminders_enabled">このグループのデッキをリマインダー通知</string>
     <string name="deck_conf_reminders_time">リマインダー通知時刻</string>
     <!-- analytics options -->
-    <string name="analytics_dialog_title">Help make AnkiDroid better!</string>
+    <string name="analytics_dialog_title">機能向上のためご協力ください</string>
     <string name="analytics_title">設定の情報提供を許可する</string>
     <string name="analytics_summ">各機能の使用傾向を開発チームが把握しやすくなり、AnkiDroidの機能向上に役立ちます。</string>
 </resources>

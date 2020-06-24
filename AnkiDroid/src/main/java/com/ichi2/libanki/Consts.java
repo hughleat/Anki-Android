@@ -102,4 +102,8 @@ public class Consts {
     public static final int REVLOG_CRAM = 3;
 
     // The labels defined in consts.py are in AnkiDroid's resources files.
+
+    public static final long DEFAULT_DECK_ID = 1;
+    /** Default dconf - can't be removed */
+    public static final long DEFAULT_DECK_CONFIG_ID = 1;
 }

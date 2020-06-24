@@ -40,12 +40,13 @@
 -->
 <resources>
     <string name="youre_offline">Ви поза мережею</string>
+    <string name="sync_even_if_offline">Всеодно спробувати</string>
     <string name="sync_error">Помилка синхронізації</string>
     <string name="vague_error">Помилка</string>
     <string name="retry">Повторити спробу</string>
     <string name="cancel">Відміна</string>
     <string name="terms_and_conditions"><a href="https://ankiweb.net/account/terms">Правила та умови</a></string>
-    <string name="menu_get_shared_decks">Отримати відкриті колоди</string>
+    <string name="menu_get_shared_decks">Завантажити колоди</string>
     <string name="connection_error_message">Виникла помилка мережі.</string>
     <string name="not_logged_in_title">Увійдіть у AnkiWeb</string>
     <string name="login_create_account_message">Ви повинні увійти до стороннього профілю щоб використовувати хмарну синхронізацію. Ви можете створити профіль на наступному кроці.</string>
@@ -56,7 +57,7 @@
     <string name="password_repeat">Повторити пароль</string>
     <string name="log_in">Ввійти</string>
     <string name="sign_up_description">Не маєте облікового запису AnkiWeb? Це безкоштовно!</string>
-    <string name="sign_up_not_affiliated">Примітка: AnkiWeb не є афілійованим з AnkiDroid</string>
+    <string name="sign_up_not_affiliated">Примітка: AnkiWeb не афілійований з AnkiDroid</string>
     <string name="sign_up">Створити обліковий запис</string>
     <string name="logged_as">Ви ввійшли як</string>
     <string name="log_out">Вийти</string>
@@ -100,7 +101,7 @@
     <string name="sync_writing_db">Запис змін до бази даних...</string>
     <string name="sync_download_chunk">Завантаження змін...</string>
     <string name="sync_upload_chunk">Відвантаження змін...</string>
-    <string name="sync_up_down_size">Вгору: %1$d kb, Вниз: %2$d kb</string>
+    <string name="sync_up_down_size">↑: %1$d кБ, ↓: %2$d кБ</string>
     <string name="sync_generic_error">Виникла помилка. Будь ласка, спробуйте пізніше.</string>
     <string name="sync_check_upload_file">Перевірка файлу перед відвантаженням...</string>
     <string name="sync_check_download_file">Перевірка завантаженого файлу...</string>
@@ -111,7 +112,7 @@
     <string name="sync_media_downloaded_count">%d завантажені медіа файли</string>
     <string name="sync_sanity_failed">Після синхронізації, деякі дані вашої колекції виявилися в суперечливому стані. Щоб усунути цю проблему, AnkiDroid виконає повну синхронізацію. Будь ласка, виберіть яку версію Ви хочете залишити, або скасуйте, якщо ви хочете синхронізувати пізніше.</string>
     <string name="sync_media_sanity_failed">Синхронізацію медіа завершено, але кількість медіа файлів не співпала з кількістю файлів на сервері. Наступна синхронізація буде повною, щоб виправити будь-які помилки.</string>
-    <string name="sync_media_db_error">Media sync failed because current database is corrupt. A media check is recommended.</string>
+    <string name="sync_media_db_error">Помилка медіа синхронізації, оскільки поточна база даних пошкоджена. Рекомендується перевірка медіа.</string>
     <string name="sync_media_error">Помилка синхронізації даних медіа.</string>
     <string name="sync_media_error_check">Помилка під час синхронізації медіа. Рекомендується перевірка медіа.</string>
     <string name="sync_sanity_local">Локально</string>

@@ -68,16 +68,16 @@
         <item quantity="other">zostáva %d minút</item>
     </plurals>
     <plurals name="reviewer_window_title_hours">
-        <item quantity="one">%d hour %d left</item>
-        <item quantity="few">%d hours %d left</item>
-        <item quantity="many">%d hours %d left</item>
-        <item quantity="other">%d hours %d left</item>
+        <item quantity="one">%d hodina %d zostáva</item>
+        <item quantity="few">%d hodiny %d zostávajú</item>
+        <item quantity="many">%d hodín %d zostáva</item>
+        <item quantity="other">%d hodín %d zostáva</item>
     </plurals>
     <plurals name="reviewer_window_title_days">
-        <item quantity="one">%d day %d left</item>
-        <item quantity="few">%d days %d left</item>
-        <item quantity="many">%d days %d left</item>
-        <item quantity="other">%d days %d left</item>
+        <item quantity="one">%d deň %d zostáva</item>
+        <item quantity="few">%d dni %d zostávajú</item>
+        <item quantity="many">%d dní %d zostáva</item>
+        <item quantity="other">%d dní %d zostáva</item>
     </plurals>
     <!-- The deck picker via AnkiStatsTaskHandler.java -->
     <plurals name="studied_cards_today">
@@ -121,23 +121,29 @@
     <string name="menu_bury">Skryť</string>
     <string name="menu_suspend">Pozastaviť</string>
     <string name="menu_delete_note">Vymazať poznámku</string>
-    <string name="menu_flag">Flag</string>
-    <string name="menu_flag_card">Flag card</string>
-    <string name="menu_flag_card_zero">No flag</string>
-    <string name="menu_flag_card_one">Red flag</string>
-    <string name="menu_flag_card_two">Orange flag</string>
-    <string name="menu_flag_card_three">Green flag</string>
-    <string name="menu_flag_card_four">Blue flag</string>
+    <string name="menu_flag">Vlajočka</string>
+    <string name="menu_flag_card">Červená vlajočka</string>
+    <string name="menu_flag_card_zero">Bez vlajočky</string>
+    <string name="menu_flag_card_one">Červená vlajočka</string>
+    <string name="menu_flag_card_two">Oranžová vlajočka</string>
+    <string name="menu_flag_card_three">Zelená vlajočka</string>
+    <string name="menu_flag_card_four">Modrá vlajočka</string>
     <string name="delete_note_message">Naozaj chcete odstrániť túto poznámku a všetky jej kartičky?\n%s</string>
     <string name="menu_select">Zvoliť text</string>
     <string name="menu_search">Vyhľadať v %1$s</string>
     <string name="menu_mark_note">Označiť poznámku</string>
     <string name="menu_unmark_note">Odznačiť poznámku</string>
+    <string name="menu_toggle_mic_tool_bar">Check Pronunciation</string>
     <string name="new_deck">Vytvoriť balíček</string>
     <string name="create">Vytvoriť</string>
     <string name="new_dynamic_deck">Vytvoriť filtrovaný balíček</string>
     <string name="night_mode">Nočný režim</string>
     <string name="directory_inaccessible">Adresár AnkiDroid je neprístupný</string>
+    <!--This is shown when AnkiDroid starts up with no storage permissions.
+    The user is taken to the "App Info" screen, and needs to click "Permissions" and
+    grant AnkiDroid the \'Storage\' permission. This needs to be a fairly generic message as implementations
+    of the permissions/app info screen will differ between devices. -->
+    <string name="startup_no_storage_permission">Please grant AnkiDroid the ‘Storage’ permission to continue</string>
     <!--
         The time_quantities are units of time. They are used without
         plurals or dots.
@@ -155,6 +161,7 @@
     <string name="rebuild_cram_deck">Obnovujem balíček na drvenie sa.\nProsím počkajte...</string>
     <string name="rebuild_cram_label">Znovu zostaviť</string>
     <string name="empty_cram_label">Vyprázdniť</string>
+    <string name="create_subdeck">Create subdeck</string>
     <string name="empty_cram_deck">Vyprázdňujem balíček na drvenie sa.\nProsím počkajte...</string>
     <string name="custom_study_deck_name">Vlastné štúdium</string>
     <string name="custom_study_deck_exists">Prosím premenujte najprv existujúci balíček Vlastné štúdium.</string>
@@ -184,6 +191,7 @@
     <string name="card_template_editor_back">Šablóna zadnej strany</string>
     <string name="card_template_editor_styling">Štýl</string>
     <string name="card_template_editor_menu_delete">Vymazať</string>
+    <string name="card_template_editor_menu_card_browser_appearance">Card Browser Appearance</string>
     <string name="card_template_editor_cant_delete">Vyžaduje sa aspoň jeden typ kartičky</string>
     <plurals name="card_template_editor_confirm_delete">
         <item quantity="one">Vymazať “%2$s” typ kartičky a jeho %1$d kartičku?</item>
@@ -192,9 +200,14 @@
         <item quantity="other">Vymazať “%2$s” typov kartičiek a ich %1$d kartičiek?</item>
     </plurals>
     <string name="invalid_template">Kartičku nie je možné vygenerovať</string>
-    <string name="card_template_editor_would_delete_note">Odstránením tejto kartičky spôsobíte, že jedna alebo viac poznámok budú vymazané. Predtým si vytvorte, prosím, nový typ kartičky.</string>
-    <string name="template_for_current_card_deleted">The card type for the current card was deleted.</string>
+    <string name="card_template_editor_would_delete_note">Removing this card type would cause one or more notes to be deleted. Please create and save a new card type first.</string>
+    <string name="card_template_editor_save_error">Unable to save card template changes: %s</string>
+    <string name="template_for_current_card_deleted">Typ kartičky pre aktuálnu kartičku bol vymazaný.</string>
+    <!-- Card Browser Appearance -->
+    <string name="card_template_browser_appearance_title">Browser appearance</string>
     <!-- Permissions -->
     <string name="read_write_permission_label">Čítať a písať do databázy AnkiDroid</string>
     <string name="read_write_permission_description">prístup k existujúcim poznámkam, kartičkám, typom poznámok, balíčkom ako aj vytváranie nových</string>
+    <string name="card_browser_label">Card Browser</string>
+    <string name="card_browser_context_menu">Card Browser</string>
 </resources>

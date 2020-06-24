@@ -79,6 +79,8 @@
     <string name="image_zoom">Image zoom</string>
     <string name="button_size">Kích thước nút trả lời </string>
     <string name="card_browser_font_size">Thẻ trình duyệt font rộng</string>
+    <string name="card_browser_hide_media">Display filenames in card browser</string>
+    <string name="card_browser_hide_media_summary">Display media filenames in the card browser question/answer fields</string>
     <string name="col_path">AnkiDroid directory</string>
     <string name="fullscreen_review">Chế độ toàn màn hình</string>
     <string name="full_screen_off">Off</string>
@@ -92,6 +94,8 @@
     </string-array>
     <string name="gestures">Kích hoạt Cử chỉ</string>
     <string name="gestures_summ">Chỉ định các cử chỉ để hành động như trả lời và chỉnh sửa thẻ.</string>
+    <string name="gestures_allow_links">Ignore touch gestures on links</string>
+    <string name="gestures_allow_links_summary">Touch gestures will not be processed if a link/hint is pressed.</string>
     <string name="gestures_swipe_up">Kéo lên</string>
     <string name="gestures_swipe_down">Kéo xuống</string>
     <string name="gestures_swipe_left">Kéo trái</string>
@@ -103,6 +107,8 @@
     <string name="gestures_tap_right">Chạm bên phải</string>
     <string name="more_scrolling_buttons">eReader</string>
     <string name="more_scrolling_buttons_summ">Cũng sử dung nút kanji/katakana, emoji/kao-moji để di chuyển</string>
+    <string name="card_browser_enable_external_context_menu">‘%s’ Menu</string>
+    <string name="card_browser_enable_external_context_menu_summary">Enables the ‘%s’ context menu globally</string>
     <string name="double_scrolling_gap">Bấm phím scrolling (chuột giữa) hai lần</string>
     <string name="double_scrolling_gap_summ">bấm hai lần chuột giữa với eReader </string>
     <string name="swipe_sensitivity">Độ nhạy của chạm vuốt</string>
@@ -116,10 +122,6 @@
     <string name="automatic_sync_choice">Automatic synchronization</string>
     <string name="automatic_sync_choice_summ">Sync automatically on app start/exit if the last sync was more than 10
         minutes ago.</string>
-    <string name="fix_hebrew_text">Sửa chữa cho nguyên âm tiếng Do Thái</string>
-    <string name="fix_hebrew_text_summ">Workaround để làm cho tiếng Do Thái nguyên âm một cách chính xác.</string>
-    <string name="fix_hebrew_instructions">Cài đặt này đi qua các thuật toán RTL của Android để hiển thị các văn bản tiếng Do Thái với nguyên âm correctly.\n\nFor để làm việc này, bạn cần phải tải về phông chữ Tohu.ttf và sao chép nó bằng tay đến: \n%s/fonts/\n\nYou sẽ không phải sửa đổi thẻ của bạn.</string>
-    <string name="fix_hebrew_download_font">Tải về phông chữ</string>
     <string name="day_theme">Day theme</string>
     <string name="night_theme">Night theme</string>
     <string name="default_font">Font mặc định</string>
@@ -150,6 +152,8 @@
     <string name="pref_backup_max">Tối đa số lượng bản sao lưu</string>
     <string name="show_estimates">Show button time</string>
     <string name="show_estimates_summ">Show next review time on answer buttons</string>
+    <string name="show_top_bar">Show Top Bar</string>
+    <string name="show_top_bar_summ">Show card counts, flag and mark in top bar</string>
     <string name="show_progress">Show remaining</string>
     <string name="show_progress_summ">Show remaining card count</string>
     <string name="show_eta">Show ETA</string>

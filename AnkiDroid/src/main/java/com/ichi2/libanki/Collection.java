@@ -21,6 +21,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.content.res.Resources;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabaseLockedException;
 import android.text.TextUtils;
 import android.util.Pair;
 
@@ -31,9 +32,8 @@ import com.ichi2.anki.UIUtils;
 import com.ichi2.anki.analytics.UsageAnalytics;
 import com.ichi2.anki.exception.ConfirmModSchemaException;
 import com.ichi2.async.CollectionTask;
-import com.ichi2.compat.CompatHelper;
 import com.ichi2.libanki.exception.NoSuchDeckException;
-import com.ichi2.libanki.hooks.Hooks;
+import com.ichi2.libanki.hooks.ChessFilter;
 import com.ichi2.libanki.sched.AbstractSched;
 import com.ichi2.libanki.sched.Sched;
 import com.ichi2.libanki.sched.SchedV2;
@@ -55,6 +55,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
@@ -63,6 +64,7 @@ import java.util.Random;
 import java.util.regex.Pattern;
 
 import androidx.annotation.Nullable;
+import androidx.annotation.VisibleForTesting;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 import androidx.sqlite.db.SupportSQLiteStatement;
 import timber.log.Timber;
@@ -380,7 +382,7 @@ public class Collection {
                 AnkiDroidApp.sendExceptionReport(e, "closeDB");
             }
             if (!mServer) {
-                CompatHelper.getCompat().disableDatabaseWriteAheadLogging(mDb.getDatabase());
+                mDb.getDatabase().disableWriteAheadLogging();
             }
             mDb.close();
             mDb = null;
@@ -392,6 +394,7 @@ public class Collection {
 
 
     public void reopen() {
+        Timber.i("Reopening Database");
         if (mDb == null) {
             mDb = new DB(mPath);
             mMedia.connect();
@@ -458,6 +461,7 @@ public class Collection {
         mDecks.beforeUpload();
         modSchemaNoCheck();
         mLs = mScm;
+        Timber.i("Compacting database before full upload");
         // ensure db is compacted before upload
         mDb.execute("vacuum");
         mDb.execute("analyze");
@@ -1005,11 +1009,10 @@ public class Collection {
      * Returns hash of id, question, answer.
      */
     public HashMap<String, String> _renderQA(Object[] data) {
-        return _renderQA(data, null, null);
+        return _renderQA(data, false, null, null);
     }
 
-
-    public HashMap<String, String> _renderQA(Object[] data, String qfmt, String afmt) {
+    public HashMap<String, String> _renderQA(Object[] data, boolean browser, String qfmt, String afmt) {
         // data is [cid, nid, mid, did, ord, tags, flds, cardFlags]
         // unpack fields and create dict
         String[] flist = Utils.splitFields((String) data[6]);
@@ -1051,9 +1054,13 @@ public class Collection {
                 // the following line differs from libanki // TODO: why?
                 fields.put("FrontSide", d.get("q")); // fields.put("FrontSide", mMedia.stripAudio(d.get("q")));
             }
-            fields = (Map<String, String>) Hooks.runFilter("mungeFields", fields, model, data, this);
             String html = new Template(format, fields).render();
-            d.put(type, (String) Hooks.runFilter("mungeQA", html, type, fields, model, data, this));
+            html = ChessFilter.fenToChessboard(html, getContext());
+            if (!browser) {
+                // browser don't show image. So compiling LaTeX actually remove information.
+                html = LaTeX.mungeQA(html, this, model);
+            }
+            d.put(type, html);
             // empty cloze?
             if ("q".equals(type) && model.getInt("type") == Consts.MODEL_CLOZE) {
                 if (getModels()._availClozeOrds(model, (String) data[6], false).size() == 0) {
@@ -1473,15 +1480,10 @@ public class Collection {
             }
             // Make a list of valid ords for this model
             JSONArray tmpls = m.getJSONArray("tmpls");
-            int[] ords = new int[tmpls.length()];
-            for (int t = 0; t < tmpls.length(); t++) {
-                ords[t] = tmpls.getJSONObject(t).getInt("ord");
-            }
 
-            boolean badOrd = mDb.queryScalar(
-                                                           "select 1 from cards where ord not in " + Utils.ids2str(ords) + " and nid in ( " +
-                                                           "select id from notes where mid = ?) limit 1",
-                                                           new Object[] {m.getLong("id")}) > 0;
+            boolean badOrd = mDb.queryScalar("select 1 from cards where (ord < 0 or ord >= ?) and nid in ( " +
+                                             "select id from notes where mid = ?) limit 1",
+                                             new Object[] {tmpls.length(), m.getLong("id")}) > 0;
             if (badOrd) {
                 return false;
             }
@@ -1491,19 +1493,18 @@ public class Collection {
 
 
     /** Fix possible problems and rebuild caches. */
-    public long fixIntegrity(CollectionTask.ProgressCallback progressCallback) {
+    public CheckDatabaseResult fixIntegrity(CollectionTask.ProgressCallback progressCallback) {
         File file = new File(mPath);
-        ArrayList<String> problems = new ArrayList<>();
-        long oldSize = file.length();
+        CheckDatabaseResult result = new CheckDatabaseResult(file.length());
         final int[] currentTask = {1};
-        int totalTasks = (mModels.all().size() * 4) + 23; // a few fixes are in all-models loops, the rest are one-offs
+        int totalTasks = (mModels.all().size() * 4) + 27; // a few fixes are in all-models loops, the rest are one-offs
         Runnable notifyProgress = () -> fixIntegrityProgress(progressCallback, currentTask[0]++, totalTasks);
         FunctionalInterfaces.Consumer<FunctionalInterfaces.FunctionThrowable<Runnable, List<String>, JSONException>> executeIntegrityTask =
                 (FunctionalInterfaces.FunctionThrowable<Runnable, List<String>, JSONException> function) -> {
                     //DEFECT: notifyProgress will lag if an exception is thrown.
                     try {
                         mDb.getDatabase().beginTransaction();
-                        problems.addAll(function.apply(notifyProgress));
+                        result.addAll(function.apply(notifyProgress));
                         mDb.getDatabase().setTransactionSuccessful();
                     } catch (Exception e) {
                         Timber.e(e, "Failed to execute integrity check");
@@ -1523,15 +1524,21 @@ public class Collection {
             notifyProgress.run();
 
             if (!mDb.getDatabase().isDatabaseIntegrityOk()) {
-                return -1;
+                return result.markAsFailed();
             }
             mDb.getDatabase().setTransactionSuccessful();
+        } catch (SQLiteDatabaseLockedException ex) {
+            Timber.e("doInBackgroundCheckDatabase - Database locked");
+            return result.markAsLocked();
         } catch (RuntimeException e) {
             Timber.e(e, "doInBackgroundCheckDatabase - RuntimeException on marking card");
             AnkiDroidApp.sendExceptionReport(e, "doInBackgroundCheckDatabase");
-            return -1;
+            return result.markAsFailed();
         } finally {
-            mDb.getDatabase().endTransaction();
+            //if the database was locked, we never got the transaction.
+            if (mDb.getDatabase().inTransaction()) {
+                mDb.getDatabase().endTransaction();
+            }
         }
 
         executeIntegrityTask.consume(this::deleteNotesWithMissingModel);
@@ -1545,6 +1552,7 @@ public class Collection {
         executeIntegrityTask.consume(this::removeOriginalDuePropertyWhereInvalid);
         executeIntegrityTask.consume(this::removeDynamicPropertyFromNonDynamicDecks);
         executeIntegrityTask.consume(this::removeDeckOptionsFromDynamicDecks);
+        executeIntegrityTask.consume(this::resetInvalidDeckOptions);
         executeIntegrityTask.consume(this::rebuildTags);
         executeIntegrityTask.consume(this::updateFieldCache);
         executeIntegrityTask.consume(this::fixNewCardDuePositionOverflow);
@@ -1555,6 +1563,7 @@ public class Collection {
         executeIntegrityTask.consume(this::fixDecimalRevLogData);
         executeIntegrityTask.consume(this::restoreMissingDatabaseIndices);
         executeIntegrityTask.consume(this::ensureModelsAreNotEmpty);
+        executeIntegrityTask.consume((progressNotifier) -> this.ensureCardsHaveHomeDeck(progressNotifier, result));
         // and finally, optimize (unable to be done inside transaction).
         try {
             optimize(notifyProgress);
@@ -1564,12 +1573,113 @@ public class Collection {
         }
         file = new File(mPath);
         long newSize = file.length();
+        result.setNewSize(newSize);
         // if any problems were found, force a full sync
-        if (problems.size() > 0) {
+        if (result.hasProblems()) {
             modSchemaNoCheck();
         }
-        logProblems(problems);
-        return (oldSize - newSize) / 1024;
+        logProblems(result.getProblems());
+        return result;
+    }
+
+
+    private List<String> resetInvalidDeckOptions(Runnable notifyProgress) {
+        Timber.d("resetInvalidDeckOptions");
+        //6454
+        notifyProgress.run();
+
+        //obtain a list of all valid dconf IDs
+        List<JSONObject> allConf = getDecks().allConf();
+        HashSet<Long> configIds  = new HashSet<>();
+
+        for (JSONObject conf : allConf) {
+            configIds.add(conf.getLong("id"));
+        }
+
+        notifyProgress.run();
+
+        int changed = 0;
+
+        for (JSONObject d : getDecks().all()) {
+            //dynamic decks do not have dconf
+            if (Decks.isDynamic(d)) {
+                continue;
+            }
+
+            if (!configIds.contains(d.getLong("conf"))) {
+                Timber.d("Reset %s's config to default", d.optString("name", "unknown deck"));
+                d.put("conf", Consts.DEFAULT_DECK_CONFIG_ID);
+                changed++;
+            }
+        }
+
+        List<String> ret = new ArrayList<>();
+
+        if (changed > 0) {
+            ret.add("Fixed " + changed + " decks with invalid config");
+            getDecks().save();
+        }
+
+        return ret;
+    }
+
+
+    /**
+     * #5932 - a card may not have a home deck if:
+     * <ul>>
+     * <li>It is in a dynamic deck, and has odid = 0.</li>
+     * <li>It is in a dynamic deck, and the odid refers to a dynamic deck.</li>
+     * </ul>
+     * Both of these cases can be fixed by moving the decks to a known-good deck
+     */
+    private List<String> ensureCardsHaveHomeDeck(Runnable notifyProgress, CheckDatabaseResult result) {
+        Timber.d("ensureCardsHaveHomeDeck()");
+
+        notifyProgress.run();
+
+        //get the deck Ids to query
+        Long[] dynDeckIds = getDecks().allDynamicDeckIds();
+        //make it mutable
+        List<Long> dynIdsAndZero = new ArrayList<>(Arrays.asList(dynDeckIds));
+        dynIdsAndZero.add(0L);
+
+        ArrayList<Long> cardIds = mDb.queryColumn(Long.class, "select id from cards where did in " +
+                Utils.ids2str(dynDeckIds) +
+                "and odid in " +
+                Utils.ids2str(dynIdsAndZero)
+                , 0);
+
+        notifyProgress.run();
+
+        if (cardIds.isEmpty()) {
+            return Collections.emptyList();
+        }
+
+        //we use a ! prefix to keep it at the top of the deck list
+        String recoveredDeckName = "! " + mContext.getString(R.string.check_integrity_recovered_deck_name);
+        Long nextDeckId = getDecks().id(recoveredDeckName , true);
+
+        if (nextDeckId == null) {
+            throw new IllegalStateException("Unable to create deck");
+        }
+
+        getDecks().flush();
+
+        mDb.execute("update cards " +
+                        "set did = " + nextDeckId + ", " +
+                        "odid = 0," +
+                        "mod = " +  Utils.intTime() + ", " +
+                        "usn = " + usn() + " " +
+                        "where did in " +
+                        Utils.ids2str(dynDeckIds) +
+                        "and odid in " +
+                        Utils.ids2str(dynIdsAndZero));
+
+
+        result.setCardsWithFixedHomeDeckCount(cardIds.size());
+
+        String message = String.format(Locale.US, "Fixed %d cards with no home deck", cardIds.size());
+        return Collections.singletonList(message);
     }
 
 
@@ -1896,7 +2006,7 @@ public class Collection {
      *
      * @param integrityCheckProblems list of problems, the first 10 will be used
      */
-    private void logProblems(ArrayList<String> integrityCheckProblems) {
+    private void logProblems(List<String> integrityCheckProblems) {
 
         if (integrityCheckProblems.size() > 0) {
             StringBuffer additionalInfo = new StringBuffer();
@@ -2097,5 +2207,85 @@ public class Collection {
         }
         mSched.setReportLimit(reportLimit);
         return mSched;
+    }
+
+    /** Allows a mock db to be inserted for testing */
+    @VisibleForTesting
+    public void setDb(DB database) {
+        this.mDb = database;
+    }
+
+    public static class CheckDatabaseResult {
+        private final List<String> mProblems = new ArrayList<>();
+        private long mOldSize;
+        private int mFixedCardsWithNoHomeDeckCount;
+        private long mNewSize;
+        /** When the database was locked */
+        private boolean mLocked = false;
+        /** When the check failed with an error (or was locked) */
+        private boolean mFailed = false;
+
+
+        public CheckDatabaseResult(long oldSize) {
+            mOldSize = oldSize;
+        }
+
+        public void addAll(List<String> strings) {
+            mProblems.addAll(strings);
+        }
+
+        public void setCardsWithFixedHomeDeckCount(int count) {
+            this.mFixedCardsWithNoHomeDeckCount = count;
+        }
+
+        public boolean hasProblems() {
+            return mProblems.size() > 0;
+        }
+
+
+        public List<String> getProblems() {
+            return mProblems;
+        }
+
+
+        public int getCardsWithFixedHomeDeckCount() {
+            return mFixedCardsWithNoHomeDeckCount;
+        }
+
+        public void setNewSize(long size) {
+            this.mNewSize = size;
+        }
+
+        public double getSizeChangeInKb() {
+            return (mOldSize - mNewSize) / 1024.0;
+        }
+
+
+        public void setFailed(boolean failedIntegrity) {
+            this.mFailed = failedIntegrity;
+        }
+
+        public CheckDatabaseResult markAsFailed() {
+            this.setFailed(true);
+            return this;
+        }
+
+        public CheckDatabaseResult markAsLocked() {
+            this.setLocked(true);
+            return markAsFailed();
+        }
+
+        private void setLocked(boolean value) {
+            mLocked = value;
+        }
+
+        public boolean getDatabaseLocked() {
+            return mLocked;
+        }
+
+
+        public boolean getFailed() {
+            return mFailed;
+        }
     }
 }

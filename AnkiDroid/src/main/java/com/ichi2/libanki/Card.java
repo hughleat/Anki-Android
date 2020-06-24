@@ -285,7 +285,7 @@ public class Card implements Cloneable {
             if (browser) {
                 String bqfmt = t.getString("bqfmt");
                 String bafmt = t.getString("bafmt");
-                mQA = mCol._renderQA(data, bqfmt, bafmt);
+                mQA = mCol._renderQA(data, browser, bqfmt, bafmt);
             } else {
                 mQA = mCol._renderQA(data);
             }
@@ -333,11 +333,6 @@ public class Card implements Cloneable {
     public int timeLimit() {
         JSONObject conf = mCol.getDecks().confForDid(mODid == 0 ? mDid : mODid);
         return conf.getInt("maxTaken") * 1000;
-    }
-
-
-    public boolean shouldShowTimer() {
-        return mCol.getDecks().confForDid(mODid == 0 ? mDid : mODid).getInt("timer") != 0;
     }
 
 
@@ -588,7 +583,8 @@ public class Card implements Cloneable {
 
 
     public boolean showTimer() {
-        return mCol.getDecks().confForDid(mODid == 0 ? mDid : mODid).optInt("timer", 1) != 0;
+        JSONObject options = mCol.getDecks().confForDid(mODid == 0 ? mDid : mODid);
+        return DeckConfig.parseTimerOpt(options, true);
     }
 
 

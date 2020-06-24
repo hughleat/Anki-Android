@@ -123,11 +123,17 @@
     <string name="menu_search">Търсене в %1$s</string>
     <string name="menu_mark_note">Маркирай бележка</string>
     <string name="menu_unmark_note">Размаркирай бележка</string>
+    <string name="menu_toggle_mic_tool_bar">Check Pronunciation</string>
     <string name="new_deck">Създай тесте</string>
     <string name="create">Създай</string>
     <string name="new_dynamic_deck">Създайте филтрирано тесте</string>
     <string name="night_mode">Нощен режим</string>
     <string name="directory_inaccessible">AnkiDroid директорията е недостъпна</string>
+    <!--This is shown when AnkiDroid starts up with no storage permissions.
+    The user is taken to the "App Info" screen, and needs to click "Permissions" and
+    grant AnkiDroid the \'Storage\' permission. This needs to be a fairly generic message as implementations
+    of the permissions/app info screen will differ between devices. -->
+    <string name="startup_no_storage_permission">Please grant AnkiDroid the ‘Storage’ permission to continue</string>
     <!--
         The time_quantities are units of time. They are used without
         plurals or dots.
@@ -145,6 +151,7 @@
     <string name="rebuild_cram_deck">Пренареждане тестето за зубрене&#8230;</string>
     <string name="rebuild_cram_label">Възстанови</string>
     <string name="empty_cram_label">Празно</string>
+    <string name="create_subdeck">Create subdeck</string>
     <string name="empty_cram_deck">Изчистване тестето за зубрене&#8230;</string>
     <string name="custom_study_deck_name">Допълнително време за учене</string>
     <string name="custom_study_deck_exists">Първо преименувайте съществуващото тесте за учене</string>
@@ -174,15 +181,21 @@
     <string name="card_template_editor_back">Шаблон обратна страна</string>
     <string name="card_template_editor_styling">Оформление</string>
     <string name="card_template_editor_menu_delete">Изтриване</string>
+    <string name="card_template_editor_menu_card_browser_appearance">Card Browser Appearance</string>
     <string name="card_template_editor_cant_delete">Трябва да има поне една карта</string>
     <plurals name="card_template_editor_confirm_delete">
         <item quantity="one">Изтриване на тип карта \"%2$s\" и неговата %1$d карта?</item>
         <item quantity="other">Изтриване на тип карта \"%2$s\" и неговите %1$d карти?</item>
     </plurals>
     <string name="invalid_template">Картата не може да се генерира</string>
-    <string name="card_template_editor_would_delete_note">Изтриването на този тип карти ще доведе до премахване на една или няколко бележки. Моля, първо създайте нов тип карти.</string>
+    <string name="card_template_editor_would_delete_note">Removing this card type would cause one or more notes to be deleted. Please create and save a new card type first.</string>
+    <string name="card_template_editor_save_error">Unable to save card template changes: %s</string>
     <string name="template_for_current_card_deleted">The card type for the current card was deleted.</string>
+    <!-- Card Browser Appearance -->
+    <string name="card_template_browser_appearance_title">Browser appearance</string>
     <!-- Permissions -->
     <string name="read_write_permission_label">Четене и записване в базата данни AnkiDroid</string>
     <string name="read_write_permission_description">access existing notes, cards, note types, and decks, as well as create new ones</string>
+    <string name="card_browser_label">Card Browser</string>
+    <string name="card_browser_context_menu">Card Browser</string>
 </resources>

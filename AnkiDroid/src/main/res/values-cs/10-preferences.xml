@@ -79,6 +79,8 @@
     <string name="image_zoom">Zvětšení obrázku</string>
     <string name="button_size">Velikost tlačítka pro odpověď</string>
     <string name="card_browser_font_size">Velikost písma v prohlížení</string>
+    <string name="card_browser_hide_media">Display filenames in card browser</string>
+    <string name="card_browser_hide_media_summary">Display media filenames in the card browser question/answer fields</string>
     <string name="col_path">Adresář AnkiDroid</string>
     <string name="fullscreen_review">Celoobrazovkový režim</string>
     <string name="full_screen_off">Vypnout</string>
@@ -92,6 +94,8 @@
     </string-array>
     <string name="gestures">Povolit gesta</string>
     <string name="gestures_summ">Přiřazení gest jednotlivým akcím.</string>
+    <string name="gestures_allow_links">Ignore touch gestures on links</string>
+    <string name="gestures_allow_links_summary">Touch gestures will not be processed if a link/hint is pressed.</string>
     <string name="gestures_swipe_up">Tažení nahoru</string>
     <string name="gestures_swipe_down">Tažení dolů</string>
     <string name="gestures_swipe_left">Tažení doleva</string>
@@ -103,6 +107,8 @@
     <string name="gestures_tap_right">Klepnutí vpravo</string>
     <string name="more_scrolling_buttons">eReader</string>
     <string name="more_scrolling_buttons_summ">Použít také kanji/katakana, emoji/kao-moji tlačítka pro posouvání</string>
+    <string name="card_browser_enable_external_context_menu">‘%s’ Menu</string>
+    <string name="card_browser_enable_external_context_menu_summary">Enables the ‘%s’ context menu globally</string>
     <string name="double_scrolling_gap">Dvojitý posun</string>
     <string name="double_scrolling_gap_summ">Dvojitý posuvník s eReader</string>
     <string name="swipe_sensitivity">Swipe citlivost</string>
@@ -115,10 +121,6 @@
     <string name="sync_account_summ_logged_in">%s</string>
     <string name="automatic_sync_choice">Automatická synchronizace</string>
     <string name="automatic_sync_choice_summ">Automaticky synchronizovat aplikaci při startu a při ukončení pokud od poslední synchronizace uplynulo více než 10 minut.</string>
-    <string name="fix_hebrew_text">Oprava pro hebrejské samohlásky</string>
-    <string name="fix_hebrew_text_summ">Úprava pro správné vykreslování hebrejských samohlásek </string>
-    <string name="fix_hebrew_instructions">Toto nastavení obejde RTL algoritmus Androidu, aby ukázal správně hebrejský text s samohláskami.\n\nAby to fungovalo potřebujete stáhnout font Tohu.ttf a ručně ho zkopírovat do:\n%s/fonts/\n\nNemusíte upravovat vaše karty.</string>
-    <string name="fix_hebrew_download_font">Stáhnout Font</string>
     <string name="day_theme">Motivy vzhledu - den</string>
     <string name="night_theme">Motivy vzhledu - noc</string>
     <string name="default_font">Výchozí písmo</string>
@@ -149,6 +151,8 @@
     <string name="pref_backup_max">Maximální počet záloh</string>
     <string name="show_estimates">Zobrazit tlačítko času</string>
     <string name="show_estimates_summ">Zobrazit čas příštího opakování na tlačítkách odpovědí</string>
+    <string name="show_top_bar">Show Top Bar</string>
+    <string name="show_top_bar_summ">Show card counts, flag and mark in top bar</string>
     <string name="show_progress">Zobraz zbývající</string>
     <string name="show_progress_summ">Zobrazit zbývající počet karet</string>
     <string name="show_eta">Zobrazit ETA</string>

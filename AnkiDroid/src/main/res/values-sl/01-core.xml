@@ -133,11 +133,17 @@
     <string name="menu_search">Poišči v %1$s</string>
     <string name="menu_mark_note">Označi zapisek</string>
     <string name="menu_unmark_note">Odznači zapisek</string>
+    <string name="menu_toggle_mic_tool_bar">Check Pronunciation</string>
     <string name="new_deck">Ustvari komplet</string>
     <string name="create">Ustvari</string>
     <string name="new_dynamic_deck">Ustvari filtriran komplet</string>
     <string name="night_mode">Nočni način</string>
     <string name="directory_inaccessible">Slovar AnkiDroid ni na voljo</string>
+    <!--This is shown when AnkiDroid starts up with no storage permissions.
+    The user is taken to the "App Info" screen, and needs to click "Permissions" and
+    grant AnkiDroid the \'Storage\' permission. This needs to be a fairly generic message as implementations
+    of the permissions/app info screen will differ between devices. -->
+    <string name="startup_no_storage_permission">Please grant AnkiDroid the ‘Storage’ permission to continue</string>
     <!--
         The time_quantities are units of time. They are used without
         plurals or dots.
@@ -155,6 +161,7 @@
     <string name="rebuild_cram_deck">Izgrajevanje intenzivnega kompleta &#8230;</string>
     <string name="rebuild_cram_label">Izgradi</string>
     <string name="empty_cram_label">Prazen</string>
+    <string name="create_subdeck">Create subdeck</string>
     <string name="empty_cram_deck">Praznjenje intenzivnega kompleta &#8230;</string>
     <string name="custom_study_deck_name">Seja učenja po meri</string>
     <string name="custom_study_deck_exists">Najprej preimenujte obstoječi komplet za učenje po meri.</string>
@@ -184,6 +191,7 @@
     <string name="card_template_editor_back">Zadnja predloga</string>
     <string name="card_template_editor_styling">Slog</string>
     <string name="card_template_editor_menu_delete">Izbriši</string>
+    <string name="card_template_editor_menu_card_browser_appearance">Card Browser Appearance</string>
     <string name="card_template_editor_cant_delete">Zahtevana je vsaj ena vrsta kartice</string>
     <plurals name="card_template_editor_confirm_delete">
         <item quantity="one">Izbriši vrsto kartice \"%2$s\" in njeno kartico?</item>
@@ -192,9 +200,14 @@
         <item quantity="other">Izbriši vrsto kartice \"%2$s\" in njenih %1$d kartic?</item>
     </plurals>
     <string name="invalid_template">Kartice ni bilo mogoče ustvariti</string>
-    <string name="card_template_editor_would_delete_note">Odstranjevanje te vrste kartice lahko povzroči izbris enega ali več zapiskov. Najprej ustvarite novo vrsto kartice.</string>
+    <string name="card_template_editor_would_delete_note">Removing this card type would cause one or more notes to be deleted. Please create and save a new card type first.</string>
+    <string name="card_template_editor_save_error">Unable to save card template changes: %s</string>
     <string name="template_for_current_card_deleted">The card type for the current card was deleted.</string>
+    <!-- Card Browser Appearance -->
+    <string name="card_template_browser_appearance_title">Browser appearance</string>
     <!-- Permissions -->
     <string name="read_write_permission_label">Branje in pisanje v podatkovno zbirko AnkiDroid</string>
     <string name="read_write_permission_description">access existing notes, cards, note types, and decks, as well as create new ones</string>
+    <string name="card_browser_label">Card Browser</string>
+    <string name="card_browser_context_menu">Card Browser</string>
 </resources>

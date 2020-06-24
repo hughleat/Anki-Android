@@ -8,10 +8,16 @@ import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.media.AudioManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.Toolbar;
+import androidx.browser.customtabs.CustomTabsIntent;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -33,6 +39,8 @@ import com.ichi2.anki.dialogs.SimpleMessageDialog;
 import com.ichi2.async.CollectionLoader;
 import com.ichi2.compat.CompatHelper;
 import com.ichi2.compat.customtabs.CustomTabActivityHelper;
+import com.ichi2.compat.customtabs.CustomTabsFallback;
+import com.ichi2.compat.customtabs.CustomTabsHelper;
 import com.ichi2.libanki.Collection;
 import com.ichi2.themes.Themes;
 import com.ichi2.utils.AdaptionUtil;
@@ -49,9 +57,12 @@ public class AnkiActivity extends AppCompatActivity implements SimpleMessageDial
     // custom tabs
     private CustomTabActivityHelper mCustomTabActivityHelper;
 
+    private boolean mIsDestroyed = false;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Timber.i("AnkiActivity::onCreate");
         // The hardware buttons should control the music volume
         setVolumeControlStream(AudioManager.STREAM_MUSIC);
         // Set the theme
@@ -61,26 +72,50 @@ public class AnkiActivity extends AppCompatActivity implements SimpleMessageDial
     }
 
     @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(AnkiDroidApp.updateContextWithLanguage(base));
+    }
+
+    @Override
     protected void onStart() {
+        Timber.i("AnkiActivity::onStart");
         super.onStart();
         mCustomTabActivityHelper.bindCustomTabsService(this);
     }
 
     @Override
     protected void onStop() {
+        Timber.i("AnkiActivity::onStop");
         super.onStop();
         mCustomTabActivityHelper.unbindCustomTabsService(this);
     }
 
 
     @Override
+    protected void onPause() {
+        Timber.i("AnkiActivity::onPause");
+        super.onPause();
+    }
+
+
+
+    @Override
     protected void onResume() {
+        Timber.i("AnkiActivity::onResume");
         super.onResume();
         UsageAnalytics.sendAnalyticsScreenView(this);
         ((NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE)).cancel(SIMPLE_NOTIFICATION_ID);
         // Show any pending dialogs which were stored persistently
         mHandler.readMessage();
     }
+
+    @Override
+    protected void onDestroy() {
+        this.mIsDestroyed = true;
+        Timber.i("AnkiActivity::onDestroy");
+        super.onDestroy();
+    }
+
 
 
     @Override
@@ -203,12 +238,14 @@ public class AnkiActivity extends AppCompatActivity implements SimpleMessageDial
 
 
     public void finishWithoutAnimation() {
+        Timber.i("finishWithoutAnimation");
         super.finish();
         disableActivityAnimation();
     }
 
 
     public void finishWithAnimation(int animation) {
+        Timber.i("finishWithAnimation %d", animation);
         super.finish();
         enableActivityAnimation(animation);
     }
@@ -216,6 +253,14 @@ public class AnkiActivity extends AppCompatActivity implements SimpleMessageDial
 
     protected void disableViewAnimation(View view) {
         view.clearAnimation();
+    }
+
+    /** Compat shim for API 16 */
+    public boolean wasDestroyed() {
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.JELLY_BEAN) {
+            return super.isDestroyed();
+        }
+        return mIsDestroyed;
     }
 
 
@@ -264,6 +309,7 @@ public class AnkiActivity extends AppCompatActivity implements SimpleMessageDial
     public void startLoadingCollection() {
         Timber.d("AnkiActivity.startLoadingCollection()");
         if (colIsOpen()) {
+            Timber.d("Synchronously calling onCollectionLoaded");
             onCollectionLoaded(getCol());
             return;
         }
@@ -271,6 +317,7 @@ public class AnkiActivity extends AppCompatActivity implements SimpleMessageDial
         showProgressBar();
         CollectionLoader.load(this, col -> {
             if (col != null) {
+                Timber.d("Asynchronously calling onCollectionLoaded");
                 onCollectionLoaded(col);
             } else {
                 Intent deckPicker = new Intent(this, DeckPicker.class);
@@ -307,11 +354,20 @@ public class AnkiActivity extends AppCompatActivity implements SimpleMessageDial
     protected void openUrl(Uri url) {
         //DEFECT: We might want a custom view for the toast, given i8n may make the text too long for some OSes to
         //display the toast
-        if (AdaptionUtil.hasWebBrowser(this)) {
-            CompatHelper.getCompat().openUrl(this, url);
-        } else {
+        if (!AdaptionUtil.hasWebBrowser(this)) {
             UIUtils.showThemedToast(this, getResources().getString(R.string.no_browser_notification) + url, false);
+            return;
         }
+
+        CustomTabActivityHelper helper = getCustomTabActivityHelper();
+        CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder(helper.getSession());
+        builder.setToolbarColor(ContextCompat.getColor(this, R.color.material_light_blue_500)).setShowTitle(true);
+        builder.setStartAnimations(this, R.anim.slide_right_in, R.anim.slide_left_out);
+        builder.setExitAnimations(this, R.anim.slide_left_in, R.anim.slide_right_out);
+        builder.setCloseButtonIcon(BitmapFactory.decodeResource(this.getResources(), R.drawable.ic_arrow_back_white_24dp));
+        CustomTabsIntent customTabsIntent = builder.build();
+        CustomTabsHelper.addKeepAliveExtra(this, customTabsIntent.intent);
+        CustomTabActivityHelper.openCustomTab(this, customTabsIntent, url, new CustomTabsFallback());
     }
 
     public CustomTabActivityHelper getCustomTabActivityHelper() {
@@ -478,6 +534,24 @@ public class AnkiActivity extends AppCompatActivity implements SimpleMessageDial
         intent.putExtras(new Bundle());
         this.startActivityWithoutAnimation(intent);
         this.finishWithoutAnimation();
+    }
+
+    protected void enableToolbar() {
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        if (toolbar != null) {
+            setSupportActionBar(toolbar);
+        }
+    }
+
+    protected void enableToolbar(@Nullable View view) {
+        if (view == null) {
+            Timber.w("Unable to enable toolbar - invalid view supplied");
+            return;
+        }
+        Toolbar toolbar = view.findViewById(R.id.toolbar);
+        if (toolbar != null) {
+            setSupportActionBar(toolbar);
+        }
     }
 }
 

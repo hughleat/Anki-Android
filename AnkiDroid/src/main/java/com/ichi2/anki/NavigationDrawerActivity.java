@@ -218,8 +218,7 @@ public abstract class NavigationDrawerActivity extends AnkiActivity implements N
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         final SharedPreferences preferences = getPreferences();
-        // Update language
-        AnkiDroidApp.setLanguage(preferences.getString(Preferences.LANGUAGE, ""));
+        Timber.i("Handling Activity Result: %d. Result: %d", requestCode, resultCode);
         NotificationChannels.setup(getApplicationContext());
         // Restart the activity on preference change
         if (requestCode == REQUEST_PREFERENCES_UPDATE) {

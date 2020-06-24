@@ -118,11 +118,17 @@
     <string name="menu_search">%1$s에서 찾아보기</string>
     <string name="menu_mark_note">노트 표시</string>
     <string name="menu_unmark_note">노트 표시 해제</string>
+    <string name="menu_toggle_mic_tool_bar">Check Pronunciation</string>
     <string name="new_deck">카드 묶음 만들기</string>
     <string name="create">만들기</string>
     <string name="new_dynamic_deck">필터링된 카드 묶음 만들기</string>
     <string name="night_mode">야간 모드</string>
     <string name="directory_inaccessible">AnkiDroid 폴더에 접근할 수 없습니다</string>
+    <!--This is shown when AnkiDroid starts up with no storage permissions.
+    The user is taken to the "App Info" screen, and needs to click "Permissions" and
+    grant AnkiDroid the \'Storage\' permission. This needs to be a fairly generic message as implementations
+    of the permissions/app info screen will differ between devices. -->
+    <string name="startup_no_storage_permission">Please grant AnkiDroid the ‘Storage’ permission to continue</string>
     <!--
         The time_quantities are units of time. They are used without
         plurals or dots.
@@ -140,6 +146,7 @@
     <string name="rebuild_cram_deck">벼락치기 덱을 다시 섞는 중입니다.\n잠시만 기다려 주세요...</string>
     <string name="rebuild_cram_label">재생성</string>
     <string name="empty_cram_label">비우기</string>
+    <string name="create_subdeck">Create subdeck</string>
     <string name="empty_cram_deck">벼락치기 덱을 비우는 중입니다.\n잠시만 기다려 주세요...</string>
     <string name="custom_study_deck_name">맞춤 학습 세션</string>
     <string name="custom_study_deck_exists">기존의 맞춤 학습 덱의 이름을 먼저 변경하세요.</string>
@@ -169,14 +176,20 @@
     <string name="card_template_editor_back">후면 템플릿</string>
     <string name="card_template_editor_styling">꾸미기</string>
     <string name="card_template_editor_menu_delete">삭제</string>
+    <string name="card_template_editor_menu_card_browser_appearance">Card Browser Appearance</string>
     <string name="card_template_editor_cant_delete">적어도 하나의 카드 형식이 필요합니다.</string>
     <plurals name="card_template_editor_confirm_delete">
         <item quantity="other">\'%2$s\' 카드 형식과 %1$d 카드를 삭제할까요?</item>
     </plurals>
     <string name="invalid_template">카드를 생성할 수 없습니다</string>
-    <string name="card_template_editor_would_delete_note">이 카드 유형을 제거하면 하나 또는 여러개의 노트가 삭제됩니다. 먼저 새 카드 유형을 만드세요.</string>
+    <string name="card_template_editor_would_delete_note">Removing this card type would cause one or more notes to be deleted. Please create and save a new card type first.</string>
+    <string name="card_template_editor_save_error">Unable to save card template changes: %s</string>
     <string name="template_for_current_card_deleted">The card type for the current card was deleted.</string>
+    <!-- Card Browser Appearance -->
+    <string name="card_template_browser_appearance_title">Browser appearance</string>
     <!-- Permissions -->
     <string name="read_write_permission_label">AnkiDroid 데이터베이스에 읽고 쓰기</string>
     <string name="read_write_permission_description">기존의 노트, 카드, 노트 유형, 카드 묶음을 접근 및 생성</string>
+    <string name="card_browser_label">Card Browser</string>
+    <string name="card_browser_context_menu">Card Browser</string>
 </resources>

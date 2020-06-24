@@ -36,7 +36,6 @@ import com.ichi2.libanki.Consts;
 import com.ichi2.libanki.Decks;
 import com.ichi2.libanki.Note;
 import com.ichi2.libanki.Utils;
-import com.ichi2.libanki.hooks.Hooks;
 
 import com.ichi2.utils.JSONArray;
 import com.ichi2.utils.JSONException;
@@ -197,7 +196,7 @@ public class Sched extends SchedV2 {
 
     private void unburyCardsForDeck(List<Long> allDecks) {
         // Refactored to allow unburying an arbitrary deck
-        String sids = _deckLimit();
+        String sids = Utils.ids2str(allDecks);
         mCol.log(mCol.getDb().queryColumn(Long.class, "select id from cards where queue = " + Consts.QUEUE_TYPE_SIBLING_BURIED + " and did in " + sids, 0));
         mCol.getDb().execute("update cards set mod=?,usn=?,queue=type where queue = " + Consts.QUEUE_TYPE_SIBLING_BURIED + " and did in " + sids,
                 new Object[] { Utils.intTime(), mCol.usn() });
@@ -1019,7 +1018,7 @@ public class Sched extends SchedV2 {
         if (!TextUtils.isEmpty(search.trim())) {
             search = String.format(Locale.US, "(%s)", search);
         }
-        search = String.format(Locale.US, "%s -is:suspended -is:buried -deck:filtered", search);
+        search = String.format(Locale.US, "%s -is:suspended -is:buried -deck:filtered -is:learn", search);
         ids = mCol.findCards(search, orderlimit);
         if (ids.isEmpty()) {
             return ids;
@@ -1165,8 +1164,8 @@ public class Sched extends SchedV2 {
             }
             // notify UI
             if (mContextReference != null) {
-                Context context = mContextReference.get();
-                Hooks.getInstance(context).runHook("leech", card, context);
+                Activity context = mContextReference.get();
+                leech(card, context);
             }
             return true;
         }
@@ -1411,61 +1410,17 @@ public class Sched extends SchedV2 {
 
     @Override
     public void buryCards(long[] cids) {
+        buryCards(cids, false);
+    }
+
+    @Override
+    public void buryCards(long[] cids, boolean manual) {
+        // The boolean is useless here. However, it ensures that we are override the method with same parameter in SchedV2.
         mCol.log(cids);
         remFromDyn(cids);
         removeLrn(cids);
         mCol.getDb().execute("update cards set queue=" + Consts.QUEUE_TYPE_SIBLING_BURIED + ",mod=?,usn=? where id in " + Utils.ids2str(cids),
                 new Object[]{Utils.now(), mCol.usn()});
-    }
-
-
-    /**
-     * Sibling spacing
-     * ********************
-     */
-
-    @Override
-    protected void _burySiblings(Card card) {
-        LinkedList<Long> toBury = new LinkedList<>();
-        JSONObject nconf = _newConf(card);
-        boolean buryNew = nconf.optBoolean("bury", true);
-        JSONObject rconf = _revConf(card);
-        boolean buryRev = rconf.optBoolean("bury", true);
-        // loop through and remove from queues
-        Cursor cur = null;
-        try {
-            cur = mCol.getDb().getDatabase().query(
-                    "select id, queue from cards where nid=? and id!=? "+
-                    "and (queue=" + Consts.QUEUE_TYPE_NEW + " or (queue=" + Consts.QUEUE_TYPE_REV + " and due<=?))",
-                    new Object[] {card.getNid(), card.getId(), mToday});
-            while (cur.moveToNext()) {
-                long cid = cur.getLong(0);
-                int queue = cur.getInt(1);
-                if (queue == Consts.QUEUE_TYPE_REV) {
-                    if (buryRev) {
-                        toBury.add(cid);
-                    }
-                    // if bury disabled, we still discard to give same-day spacing
-                    mRevQueue.remove(cid);
-                } else {
-                    // if bury is disabled, we still discard to give same-day spacing
-                    if (buryNew) {
-                        toBury.add(cid);
-                    }
-                    mNewQueue.remove(cid);
-                }
-            }
-        } finally {
-            if (cur != null && !cur.isClosed()) {
-                cur.close();
-            }
-        }
-        // then bury
-        if (!toBury.isEmpty()) {
-            mCol.getDb().execute("update cards set queue=" + Consts.QUEUE_TYPE_SIBLING_BURIED + ",mod=?,usn=? where id in " + Utils.ids2str(toBury),
-                    new Object[] { Utils.now(), mCol.usn() });
-            mCol.log(toBury);
-        }
     }
 
     /**
@@ -1765,22 +1720,6 @@ public class Sched extends SchedV2 {
         conf = _cardConf(card).getJSONObject("lapse");
         return conf.getInt("leechAction") == Consts.LEECH_SUSPEND;
     }
-
-    /** not in libAnki. Added due to #5666: inconsistent selected deck card counts on sync */
-    @Override
-    public int[] recalculateCounts() {
-        _resetLrnCount();
-        _resetNewCount();
-        _resetRevCount();
-        return new int[] { mNewCount, mLrnCount, mRevCount };
-    }
-
-    @Override
-    public void setReportLimit(int reportLimit) {
-        this.mReportLimit = reportLimit;
-    }
-
-    /** End #5666 */
 
 
     @Override

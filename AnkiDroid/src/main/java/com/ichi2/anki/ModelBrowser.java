@@ -23,7 +23,6 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -170,10 +169,7 @@ public class ModelBrowser extends AnkiActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.model_browser);
         mModelListView = (ListView) findViewById(R.id.note_type_browser_list);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        if (toolbar != null) {
-            setSupportActionBar(toolbar);
-        }
+        enableToolbar();
         mActionBar = getSupportActionBar();
         startLoadingCollection();
     }
@@ -374,7 +370,7 @@ public class ModelBrowser extends AnkiActivity {
             } else {
                 //New model
                 //Model that is being cloned
-                JSONObject oldModel = new JSONObject(mModels.get(position - nbStdModels).toString());
+                JSONObject oldModel = mModels.get(position - nbStdModels).deepClone();
                 JSONObject newModel = StdModels.basicModel.add(col);
                 oldModel.put("id", newModel.get("id"));
                 model = oldModel;

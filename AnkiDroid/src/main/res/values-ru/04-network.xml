@@ -40,6 +40,7 @@
 -->
 <resources>
     <string name="youre_offline">Вы не в сети</string>
+    <string name="sync_even_if_offline">Всё равно попробовать</string>
     <string name="sync_error">Ошибка синхронизации</string>
     <string name="vague_error">Ошибка</string>
     <string name="retry">Повторить</string>
@@ -100,7 +101,7 @@
     <string name="sync_writing_db">Изменения записываются в базу данных&#8230;</string>
     <string name="sync_download_chunk">Изменения загружаются&#8230;</string>
     <string name="sync_upload_chunk">Изменения выгружаются&#8230;</string>
-    <string name="sync_up_down_size">Выгружено: %1$d кБ, загружено: %2$d кБ</string>
+    <string name="sync_up_down_size">Up: %1$d KB, down: %2$d KB</string>
     <string name="sync_generic_error">Произошла ошибка. Попробуйте позже.</string>
     <string name="sync_check_upload_file">Файл проверяется перед выгрузкой&#8230;</string>
     <string name="sync_check_download_file">Проверяется загруженный файл&#8230;</string>
@@ -111,7 +112,7 @@
     <string name="sync_media_downloaded_count">%d медиафайлов загружено</string>
     <string name="sync_sanity_failed">После синхронизации коллекция в несогласованном состоянии. Будет запущена полная синхронизации. Выберите версию коллекции, которая останется.</string>
     <string name="sync_media_sanity_failed">Синхронизация медиафайлов завершена, но количество файлов не совпадает. В следующей раз будет произведена полная синхронизация.</string>
-    <string name="sync_media_db_error">Media sync failed because current database is corrupt. A media check is recommended.</string>
+    <string name="sync_media_db_error">Не удалось синхронизировать медиафайлы, потому что текущая база данных повреждена. Запустите проверку медиафайлов.</string>
     <string name="sync_media_error">Ошибка при синхронизации медиафайлов</string>
     <string name="sync_media_error_check">Ошибка при синхронизации медиафайлов. Выберите \"Проверку медиафайлов\".</string>
     <string name="sync_sanity_local">Локальную</string>

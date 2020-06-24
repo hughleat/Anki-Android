@@ -60,7 +60,7 @@ public class DB {
     private boolean mMod = false;
 
     /**
-     * Open a database connection to an ".anki" SQLite file.
+     * Open a connection to the SQLite collection database.
      */
     public DB(String ankiFilename) {
 
@@ -70,9 +70,7 @@ public class DB {
                 .build();
         SupportSQLiteOpenHelper helper = getSqliteOpenHelperFactory().create(configuration);
         mDatabase = helper.getWritableDatabase();
-
-        // TODO: remove this once everyone has stopped using old AnkiDroid clients with WAL (API >= 16)
-        CompatHelper.getCompat().disableDatabaseWriteAheadLogging(mDatabase);
+        mDatabase.disableWriteAheadLogging();
         mDatabase.query("PRAGMA synchronous = 2", null);
         mMod = false;
     }
@@ -366,17 +364,22 @@ public class DB {
         return getDatabase().insert(table, SQLiteDatabase.CONFLICT_NONE, values);
     }
 
-
     public void executeMany(String sql, List<Object[]> list) {
         mMod = true;
         mDatabase.beginTransaction();
         try {
-            for (Object[] o : list) {
-                mDatabase.execSQL(sql, o);
-            }
+            executeManyNoTransaction(sql, list);
             mDatabase.setTransactionSuccessful();
         } finally {
             mDatabase.endTransaction();
+        }
+    }
+
+    /** Use this executeMany version with external transaction management */
+    public void executeManyNoTransaction(String sql, List<Object[]> list) {
+        mMod = true;
+        for (Object[] o : list) {
+            mDatabase.execSQL(sql, o);
         }
     }
 

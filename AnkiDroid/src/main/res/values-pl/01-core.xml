@@ -71,10 +71,10 @@
         <item quantity="one">%d hour %d left</item>
         <item quantity="few">%d hours %d left</item>
         <item quantity="many">%d hours %d left</item>
-        <item quantity="other">%d hours %d left</item>
+        <item quantity="other">Zostało %d godzin %d</item>
     </plurals>
     <plurals name="reviewer_window_title_days">
-        <item quantity="one">%d day %d left</item>
+        <item quantity="one">Pozostał %d dzień %d</item>
         <item quantity="few">%d days %d left</item>
         <item quantity="many">%d days %d left</item>
         <item quantity="other">%d days %d left</item>
@@ -121,23 +121,29 @@
     <string name="menu_bury">Zakop</string>
     <string name="menu_suspend">Zawieś</string>
     <string name="menu_delete_note">Usuń notatkę</string>
-    <string name="menu_flag">Flag</string>
-    <string name="menu_flag_card">Flag card</string>
-    <string name="menu_flag_card_zero">No flag</string>
-    <string name="menu_flag_card_one">Red flag</string>
-    <string name="menu_flag_card_two">Orange flag</string>
-    <string name="menu_flag_card_three">Green flag</string>
-    <string name="menu_flag_card_four">Blue flag</string>
+    <string name="menu_flag">Oflaguj</string>
+    <string name="menu_flag_card">Oflaguj kartę</string>
+    <string name="menu_flag_card_zero">Brak flagi</string>
+    <string name="menu_flag_card_one">Czerwona flaga</string>
+    <string name="menu_flag_card_two">Pomarańczowa flaga</string>
+    <string name="menu_flag_card_three">Zielona flaga</string>
+    <string name="menu_flag_card_four">Niebieska flaga</string>
     <string name="delete_note_message">Jesteś pewny, że chcesz usunąć tę notatkę i wszystkie jej karty?\n%s</string>
     <string name="menu_select">Zaznacz tekst</string>
     <string name="menu_search">Wyszukiwanie w %1$s</string>
     <string name="menu_mark_note">Wyróżnij notatkę</string>
     <string name="menu_unmark_note">Cofnij wyróżnienie notatki</string>
+    <string name="menu_toggle_mic_tool_bar">Check Pronunciation</string>
     <string name="new_deck">Stwórz talię</string>
     <string name="create">Utwórz</string>
     <string name="new_dynamic_deck">Stwórz filtrowaną talię</string>
     <string name="night_mode">Tryb nocny</string>
     <string name="directory_inaccessible">Katalog AnkiDroid jest niedostępny</string>
+    <!--This is shown when AnkiDroid starts up with no storage permissions.
+    The user is taken to the "App Info" screen, and needs to click "Permissions" and
+    grant AnkiDroid the \'Storage\' permission. This needs to be a fairly generic message as implementations
+    of the permissions/app info screen will differ between devices. -->
+    <string name="startup_no_storage_permission">Please grant AnkiDroid the ‘Storage’ permission to continue</string>
     <!--
         The time_quantities are units of time. They are used without
         plurals or dots.
@@ -155,6 +161,7 @@
     <string name="rebuild_cram_deck">Przebudowywanie talii.\nProszę czekać...</string>
     <string name="rebuild_cram_label">Odbuduj</string>
     <string name="empty_cram_label">Wyczyść</string>
+    <string name="create_subdeck">Create subdeck</string>
     <string name="empty_cram_deck">Czyszczenie talii.\nProszę czekać...</string>
     <string name="custom_study_deck_name">Sesja nauki niestandardowej</string>
     <string name="custom_study_deck_exists">Najpierw zmień nazwę istniejącej talii nauki niestandardowej.</string>
@@ -173,7 +180,7 @@
     <string name="cancel_sync_confirm">Chcesz przerwać synchronizację?</string>
     <string name="continue_sync">Kontynuuj synchronizację</string>
     <string name="sync_cancelled">Synchronizacja przerwana</string>
-    <string name="sync_cancel_message">Anulowanie...\nTo może zająć trochę czasu.</string>
+    <string name="sync_cancel_message">Anulowanie...\nTo może chwilę zająć.</string>
     <string name="export">Eksportuj</string>
     <string name="export_collection">Eksportuj kolekcję</string>
     <string name="export_deck">Eksportuj talię</string>
@@ -184,6 +191,7 @@
     <string name="card_template_editor_back">Szablon tylny</string>
     <string name="card_template_editor_styling">Styl</string>
     <string name="card_template_editor_menu_delete">Usuń</string>
+    <string name="card_template_editor_menu_card_browser_appearance">Card Browser Appearance</string>
     <string name="card_template_editor_cant_delete">Wymagany jest przynajmniej jeden typ karty.</string>
     <plurals name="card_template_editor_confirm_delete">
         <item quantity="one">Czy usunąć typ kart “%2$s” oraz jego %1$d kartę?</item>
@@ -192,9 +200,14 @@
         <item quantity="other">Czy usunąć typ kart “%2$s” oraz jego %1$d kart?</item>
     </plurals>
     <string name="invalid_template">Karta nie mogła zostać wygenerowana</string>
-    <string name="card_template_editor_would_delete_note">Usunięcie typu karty może spowodować usunięcie jednej lub większej ilości notatek. Proszę o utworzenie najpierw nowej karty.</string>
-    <string name="template_for_current_card_deleted">The card type for the current card was deleted.</string>
+    <string name="card_template_editor_would_delete_note">Removing this card type would cause one or more notes to be deleted. Please create and save a new card type first.</string>
+    <string name="card_template_editor_save_error">Unable to save card template changes: %s</string>
+    <string name="template_for_current_card_deleted">Typ karty dla aktualnej karty został usunięty</string>
+    <!-- Card Browser Appearance -->
+    <string name="card_template_browser_appearance_title">Browser appearance</string>
     <!-- Permissions -->
     <string name="read_write_permission_label">Odczyt i zapis do bazy danych AnkiDroid</string>
     <string name="read_write_permission_description">dostęp do istniejących notatek, kart, typów notatek i talii, a także tworzenia istniejących</string>
+    <string name="card_browser_label">Przeglądarka kart</string>
+    <string name="card_browser_context_menu">Przeglądarka kart</string>
 </resources>

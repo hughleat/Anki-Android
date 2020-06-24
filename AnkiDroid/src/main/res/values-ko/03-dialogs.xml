@@ -41,7 +41,7 @@
     <string name="check_db_title">데이터베이스를 점검할까요?</string>
     <string name="check_db_warning">시간이 오래 걸릴 수 있습니다</string>
     <string name="check_db_acknowledge">데이터베이스 점검됨</string>
-    <string name="check_db_acknowledge_shrunk">데이터베이스가 점검 및 최적화 되었습니다.\n %d kB 축소됨.</string>
+    <string name="check_db_acknowledge_shrunk">Database checked and optimized.\nShrunk by %d MB.</string>
     <string name="contextmenu_deckpicker_delete_deck">카드 묶음 삭제</string>
     <string name="delete_deck_default_deck">기본 카드 묶음은 삭제할 수 없습니다</string>
     <string name="delete_deck_title">카드 묶음을 삭제할까요?</string>
@@ -82,8 +82,9 @@
     <plurals name="reschedule_cards_dialog_acknowledge">
         <item quantity="other">%d 카드의 일정이 조정됨</item>
     </plurals>
+    <string name="firefox_workaround_launched_reviewer_opening_deck">Select the deck in your file manager or visit the about:downloads page to import it</string>
     <string name="answering_error_title">데이터베이스 오류</string>
-    <string name="answering_error_message">컬렉션 파일을 작성 중 오류가 발생했습니다. 데이타베이스가 엉켰거나 디스크 공간이 부족할 가능성이 있습니다.\n\n 이러한 현상이 자주 발생한다면, 데이터베이스를 점검하여 컬렉션을 수정하고 백업에서 복원하시기 바랍니다. 이를 위해 \'옵션\'을 선택하세요. \n\n 동시에 이는 Ankidroid 버그이므로 오류 보고를 해주시면 점검해 보겠습니다.</string>
+    <string name="answering_error_message">Writing to the collection failed. The database could be corrupt or there may not to be enough empty space on disk.\n\nIf this happens more often, try checking the database, repairing the collection or restoring it from a backup. Touch “options” for that.\n\Or it could be an AnkiDroid bug as well; please report the error so that we can check this.</string>
     <string name="answering_error_report">오류 보고하기</string>
     <string name="repair_deck_dialog">데이터베이스를 복구하시겠습니까?\n\n 복구를 시작하기 전에 지정된 하위폴더에 복사본 파일이 저장됩니다\'%s\'.</string>
     <string name="intent_add_saved_information">저장된 데이터</string>
@@ -149,6 +150,7 @@
     <!-- Multimedia - Edit Field Activity -->
     <string name="multimedia_editor_audio_permission_refused">Could not obtain microphone permission.</string>
     <string name="multimedia_editor_camera_permission_refused">Could not obtain camera permission. Functionality has been disabled.</string>
+    <string name="multimedia_editor_failed">Failed to open Multimedia Editor</string>
     <!-- Multimedia - Audio View -->
     <string name="multimedia_editor_audio_permission_denied">Audio recording permission denied</string>
     <!-- Initial collection load -->
@@ -162,9 +164,31 @@
     <string name="integrity_check_continue_anyway">Continue Anyway</string>
     <string name="integrity_check_insufficient_space">Check Database uses a large amount of temporary storage.\n\nIt is strongly recommended that you have at least %s free space on your device before continuing.</string>
     <string name="integrity_check_insufficient_space_extra_content">\n\nYou currently have %s free.</string>
+    <string name="integrity_check_fixed_no_home_deck">%d cards with incorrect home decks were recovered. Please see the manual for more information.</string>
     <string name="video_creation_error">Could not play video</string>
     <!-- Card Browser -->
     <string name="card_browser_deck_change_error">Could not change deck</string>
     <!-- AbstractFlashCardViewer -->
     <string name="card_viewer_url_decode_error">Error decoding data from card</string>
+    <!-- Deck Options -->
+    <string name="deck_options_corrupt">Failed to process deck options: %s</string>
+    <!-- Database Errors-->
+    <string name="database_locked_title">Database Locked</string>
+    <string name="database_locked_summary">The AnkiDroid database is in use by another application. Please close the other application then reopen AnkiDroid.</string>
+    <!-- Deck Picker Background-->
+    <string name="background_image_applied">Background image applied</string>
+    <string name="background_image_removed">Background image removed</string>
+    <string name="no_image_selected">No image selected</string>
+    <string name="error_selecting_image">Error selecting image. Please see manual. %s</string>
+    <string name="error_deleting_image">Error deleting image</string>
+    <string name="failed_to_apply_background_image">Failed to apply background image %s</string>
+    <string name="image_max_size_allowed">Maximum image size %d MB allowed</string>
+    <!-- Global Intent handler -->
+    <!-- Also used by Card Browser, not renaming to save translators effort -->
+    <string name="intent_handler_failed_no_storage_permission">Missing required storage permission. Please grant storage permission then retry your action.</string>
+    <!-- Browser Appearance -->
+    <string name="card_template_editor_card_browser_appearance_failed">Could not load Card Browser Appearance</string>
+    <!-- Boot Service -->
+    <string name="boot_service_failed_to_schedule_notifications">Failed to schedule reminders</string>
+    <string name="boot_service_too_many_notifications">Too many reminders scheduled. Some will not appear</string>
 </resources>

@@ -64,6 +64,7 @@
     <string name="hide_whiteboard">Esconder quadro</string>
     <string name="clear_whiteboard">Limpar quadro</string>
     <string name="replay_audio">Tocar audio novamente</string>
+    <string name="toggle_mic_tool_bar">Check Pronunciation</string>
     <string name="leech_suspend_notification">Cartão marcado como sanguessuga e suspenso</string>
     <string name="leech_notification">Cartão marcado como sanguessuga</string>
     <string name="corrupt_font">Arquivo de fonte %s danificado</string>
@@ -87,7 +88,7 @@
         <item>Nota</item>
         <item>Questão</item>
         <item>Tags</item>
-        <item>Lapsos</item>
+        <item>Erros</item>
         <item>Revisões</item>
         <item>Intervalo</item>
         <item>Ease</item>
@@ -106,9 +107,12 @@
     <string name="custom_study_limit_tags">Limitar a tags específicas</string>
     <!-- Card editor -->
     <string name="cardeditor_title_add_note">Adicionar Nota</string>
-    <string name="cardeditor_title_edit_card">Editar Nota</string>
+    <string name="cardeditor_title_edit_card">Editar nota</string>
     <string name="discard_unsaved_changes">Fechar e perder a entrada atual?</string>
-    <string name="factadder_saving_error">Erro ao salvar nota</string>
+    <string name="note_editor_no_cards_created">Nenhum cartão criado. Por favor, preencha mais campos</string>
+    <string name="note_editor_no_first_field">O primeiro campo está vazio</string>
+    <string name="note_editor_no_cloze_delations">Este tipo de nota deve conter uma omissão de lacuna</string>
+    <string name="note_editor_no_cards_created_all_fields">The current note type did not produce any cards.\nPlease choose another note type, or click ‘Cards’ and add a field substitution</string>
     <string name="saving_facts">Salvando nota</string>
     <string name="saving_model">Saving note type</string>
     <string name="add">Adicionar</string>
@@ -130,8 +134,8 @@
     </plurals>
     <string name="studyoptions_welcome_title">Bem-vindo ao AnkiDroid</string>
     <string name="fact_adder_intent_title">Cartão AnkiDroid</string>
-    <string name="note_editor_add_note">Add note</string>
-    <string name="note_editor_copy_note">Copy note</string>
+    <string name="note_editor_add_note">Adicionar nota</string>
+    <string name="note_editor_copy_note">Copiar nota</string>
     <string name="card_editor_copy_card">Copiar cartão</string>
     <string name="card_editor_reposition_card">Reposicionar</string>
     <string name="card_editor_reset_card">Redefinir progresso</string>
@@ -161,10 +165,17 @@
     <string name="import_message_replace_confirm">Isto irá excluir sua coleção atual e substituí-la pelo conteúdo do arquivo %s</string>
     <string name="import_message_add_confirm">Adicionar \"%s\" a coleção? Isto pode levar um bom tempo</string>
     <string name="import_log_no_apkg">Este não é um arquivo válido para o Anki</string>
-    <string name="import_error_unhandled_request">Unable to process import request</string>
-    <string name="import_error_exception">Failed to import package\n\n%s</string>
+    <string name="import_log_failed_unzip">Failed to unzip apkg: %s</string>
+    <string name="import_log_failed_copy_to">Failed to copy apkg to %s</string>
+    <string name="import_log_failed_validate">apkg failed validation</string>
+    <string name="import_log_insufficient_space">There is not enough space to unzip the package. Needed %1$d, available %2$d</string>
+    <string name="import_succeeded_but_check_database">Data import succeeded but post-import cleanup failed. Run check database later. Root cause: %s</string>
+    <string name="import_error_unhandled_request">Não foi possível completar a importação</string>
+    <string name="import_error_exception">Erro ao importar o pacote\n\n%s</string>
     <string name="import_error_not_apkg_extension">O arquivo \"%s\" não tem a extensão .apkg ou .colpkg</string>
+    <string name="import_error_load_imported_database">Anki Database (.anki2) replacements are not yet supported. Please see the manual for replacement instructions.</string>
     <string name="import_error_content_provider">O arquivo selecionado não pôde ser importado automaticamente pelo AnkiDroid. Por favor veja o manual do usuário para aprender a importar manualmente arquivos do anki: \n %s</string>
+    <string name="import_error_copy_file_to_cache">copyFileToCache() failed (possibly out of storage space)</string>
     <string name="import_replacing">Substituindo coleção&#8230;</string>
     <string name="import_interrupted">Import interrupted</string>
     <string name="export_include_schedule">Incluir agendamento</string>
@@ -249,6 +260,17 @@
     <string name="activity_start_failed_load_url">Loading \'%s\' failed.</string>
     <string name="activity_start_failed">The system does not have an app installed that can perform this action.</string>
     <string name="multimedia_editor_image_compression_failed"><![CDATA[Camera images may be large. You may wish to compress & resize images in the media directory]]></string>
-    <string name="no_browser_notification">No browser found，please visit web page by pc or mobile: </string>
-    <string name="no_outgoing_link_in_cardbrowser">External page link in card is not supported.</string>
+    <string name="no_browser_notification">Nenhum navegador encontrado, por favor visite a página através de um computador ou celular.</string>
+    <string name="no_outgoing_link_in_cardbrowser">Link de página externa não é suportado no cartão.</string>
+    <!-- The name of the deck which corrupt cards will be moved to -->
+    <string name="check_integrity_recovered_deck_name">Cartões recuperados</string>
+    <!-- Deckpicker Background -->
+    <string name="background_image_title">Background</string>
+    <string name="choose_an_image">Choose an Image</string>
+    <!-- Card Template Browser Appearance -->
+    <string name="restore_default">Restore Default</string>
+    <string name="reviewer_tts_cloze_spoken_replacement">Vazio</string>
+    <!-- in options menu & Navigation Drawer -->
+    <string name="ankidroid_turn_on_fullscreen_nav_drawer">Please turn on fullscreen to use Show Navigation Drawer using JavaScript.</string>
+    <string name="ankidroid_turn_on_fullscreen_options_menu">Please turn on fullscreen to use Show Options Menu using JavaScript.</string>
 </resources>

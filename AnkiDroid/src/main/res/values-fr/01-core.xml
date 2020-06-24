@@ -64,12 +64,12 @@
         <item quantity="other">%d minutes restantes</item>
     </plurals>
     <plurals name="reviewer_window_title_hours">
-        <item quantity="one">%d hour %d left</item>
-        <item quantity="other">%d hours %d left</item>
+        <item quantity="one">%d heure %d restante</item>
+        <item quantity="other">%d heures %d restantes</item>
     </plurals>
     <plurals name="reviewer_window_title_days">
-        <item quantity="one">%d day %d left</item>
-        <item quantity="other">%d days %d left</item>
+        <item quantity="one">%d jour %d restant</item>
+        <item quantity="other">%d jours %d restants</item>
     </plurals>
     <!-- The deck picker via AnkiStatsTaskHandler.java -->
     <plurals name="studied_cards_today">
@@ -111,23 +111,29 @@
     <string name="menu_bury">Enterrer</string>
     <string name="menu_suspend">Suspendre</string>
     <string name="menu_delete_note">Supprimer la note</string>
-    <string name="menu_flag">Flag</string>
-    <string name="menu_flag_card">Flag card</string>
-    <string name="menu_flag_card_zero">No flag</string>
-    <string name="menu_flag_card_one">Red flag</string>
-    <string name="menu_flag_card_two">Orange flag</string>
-    <string name="menu_flag_card_three">Green flag</string>
-    <string name="menu_flag_card_four">Blue flag</string>
+    <string name="menu_flag">Marquer</string>
+    <string name="menu_flag_card">Marquer la carte</string>
+    <string name="menu_flag_card_zero">Aucun marqueur</string>
+    <string name="menu_flag_card_one">Marqueur rouge</string>
+    <string name="menu_flag_card_two">Marqueur orange</string>
+    <string name="menu_flag_card_three">Marqueur vert</string>
+    <string name="menu_flag_card_four">Marqueur bleu</string>
     <string name="delete_note_message">Voulez-vous vraiment supprimer cette note et toutes ses cartes ?\n%s</string>
     <string name="menu_select">Sélectionner le texte</string>
     <string name="menu_search">Trouvé en %1$s</string>
     <string name="menu_mark_note">Marquer la note</string>
     <string name="menu_unmark_note">Démarquer la note</string>
+    <string name="menu_toggle_mic_tool_bar">Vérifier la prononciation</string>
     <string name="new_deck">Créer un jeu de cartes</string>
     <string name="create">Créer</string>
     <string name="new_dynamic_deck">Créer un paquet filtré</string>
     <string name="night_mode">Mode nuit</string>
     <string name="directory_inaccessible">Le répertoire d\'AnkiDroid est inaccessible</string>
+    <!--This is shown when AnkiDroid starts up with no storage permissions.
+    The user is taken to the "App Info" screen, and needs to click "Permissions" and
+    grant AnkiDroid the \'Storage\' permission. This needs to be a fairly generic message as implementations
+    of the permissions/app info screen will differ between devices. -->
+    <string name="startup_no_storage_permission">Please grant AnkiDroid the ‘Storage’ permission to continue</string>
     <!--
         The time_quantities are units of time. They are used without
         plurals or dots.
@@ -145,6 +151,7 @@
     <string name="rebuild_cram_deck">Reconstruction du paquet de bachotage&#8230;</string>
     <string name="rebuild_cram_label">Réparer</string>
     <string name="empty_cram_label">Vide</string>
+    <string name="create_subdeck">Créer un sous-paquet</string>
     <string name="empty_cram_deck">Paquet de bachotage en cours de vidage&#8230;</string>
     <string name="custom_study_deck_name">Session d\'étude personnalisée</string>
     <string name="custom_study_deck_exists">Merci de renommer d\'abord le paquet d\'étude personnalisée.</string>
@@ -174,15 +181,21 @@
     <string name="card_template_editor_back">Modèle verso</string>
     <string name="card_template_editor_styling">Style</string>
     <string name="card_template_editor_menu_delete">Supprimer</string>
+    <string name="card_template_editor_menu_card_browser_appearance">Apparence du navigateur de cartes</string>
     <string name="card_template_editor_cant_delete">Il faut au moins un type de carte.</string>
     <plurals name="card_template_editor_confirm_delete">
         <item quantity="one">Supprimer le type de carte “%2$s” et sa %1$d carte ?</item>
         <item quantity="other">Supprimer le type de carte “%2$s” et ses %1$d cartes ?</item>
     </plurals>
     <string name="invalid_template">Une carte n\'a pas pu être générée</string>
-    <string name="card_template_editor_would_delete_note">Retirer ce type de carte provoquera la suppression d\'une ou de plusieurs notes. Veuillez d\'abord créer un nouveau type de carte.</string>
-    <string name="template_for_current_card_deleted">The card type for the current card was deleted.</string>
+    <string name="card_template_editor_would_delete_note">Retirer ce type de carte provoquera la suppression d\'une ou de plusieurs notes. Veuillez d\'abord créer et sauvegarder un nouveau type de carte.</string>
+    <string name="card_template_editor_save_error">Impossible de sauvegarder les modifications apportées au modèle de carte : %s</string>
+    <string name="template_for_current_card_deleted">Le type de carte pour la carte actuelle a été supprimé.</string>
+    <!-- Card Browser Appearance -->
+    <string name="card_template_browser_appearance_title">Apparence du navigateur</string>
     <!-- Permissions -->
     <string name="read_write_permission_label">Lire et écrire dans la base de données d\'AnkiDroid</string>
     <string name="read_write_permission_description">accéder aux notes, cartes, types de notes et paquets actuels, mais aussi en créer de nouveaux</string>
+    <string name="card_browser_label">Navigateur de cartes</string>
+    <string name="card_browser_context_menu">Navigateur de cartes</string>
 </resources>

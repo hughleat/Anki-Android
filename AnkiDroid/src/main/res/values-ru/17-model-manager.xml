@@ -59,6 +59,7 @@
     <string name="model_field_editor_rename">Переименовать поле</string>
     <string name="model_field_editor_reposition_menu">Переместить поле</string>
     <string name="model_field_editor_reposition">Переместить поле (введите значение %1$d–%2$d)</string>
+    <string name="model_field_editor_toggle_sticky">При добавлении запоминать последний ввод</string>
     <string name="model_field_editor_changing">Поля обновляются</string>
     <string name="model_field_editor_sort_field">Сортировать по этому полю</string>
     <string name="model_clone_suffix">копировать</string>
@@ -69,4 +70,10 @@
     <string name="model_browser_add_add">Добавить: %1$s </string>
     <!--This prefix is used for standard note types-->
     <string name="model_browser_add_clone">Дублировать: %1$s </string>
+    <!--Browser Appearance-->
+    <string name="card_template_browser_appearance_summary">Введите шаблон, который будет использоваться в списке карточек. Используйте это для отображения более сжатого ответа.\n\nШаблон лицевой стороны\n«Столицей {{Country}} является:»\nбудет ужат до \n«Столица: {{Country}}»</string>
+    <string name="card_template_browser_appearance_question_format">Формат вопроса</string>
+    <string name="card_template_browser_appearance_answer_format">Формат ответа</string>
+    <string name="card_template_browser_appearance_restore_default_dialog">Восстановить настройки по умолчанию?</string>
+    <string name="card_template_browser_appearance_saving_note">Изменения применяются при сохранении шаблона</string>
 </resources>

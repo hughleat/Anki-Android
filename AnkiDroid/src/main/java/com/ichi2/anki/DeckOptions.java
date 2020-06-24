@@ -46,6 +46,7 @@ import com.ichi2.anki.services.ReminderService;
 import com.ichi2.async.CollectionTask;
 import com.ichi2.libanki.Collection;
 import com.ichi2.libanki.Consts;
+import com.ichi2.libanki.DeckConfig;
 import com.ichi2.preferences.StepsPreference;
 import com.ichi2.preferences.TimePreference;
 import com.ichi2.themes.StyledProgressDialog;
@@ -106,7 +107,7 @@ public class DeckOptions extends AppCompatPreferenceActivity implements OnShared
                 mValues.put("deckConf", mDeck.getString("conf"));
                 // general
                 mValues.put("maxAnswerTime", mOptions.getString("maxTaken"));
-                mValues.put("showAnswerTimer", Boolean.toString(mOptions.getInt("timer") == 1));
+                mValues.put("showAnswerTimer", Boolean.toString(parseTimerValue(mOptions)));
                 mValues.put("autoPlayAudio", Boolean.toString(mOptions.getBoolean("autoplay")));
                 mValues.put("replayQuestion", Boolean.toString(mOptions.optBoolean("replayq", true)));
                 // new
@@ -152,9 +153,19 @@ public class DeckOptions extends AppCompatPreferenceActivity implements OnShared
                     mValues.put("reminderTime", TimePreference.DEFAULT_VALUE);
                 }
             } catch (JSONException e) {
+                Timber.e(e, "DeckOptions - cacheValues");
+                AnkiDroidApp.sendExceptionReport(e, "DeckOptions: cacheValues");
+                Resources r = DeckOptions.this.getResources();
+                UIUtils.showThemedToast(DeckOptions.this, r.getString(R.string.deck_options_corrupt, e.getLocalizedMessage()), false);
                 finish();
             }
         }
+
+
+        private boolean parseTimerValue(JSONObject options) {
+            return DeckConfig.parseTimerOpt(options, true);
+        }
+
 
         public class Editor implements SharedPreferences.Editor {
 
@@ -643,6 +654,10 @@ public class DeckOptions extends AppCompatPreferenceActivity implements OnShared
             finish();
         } else {
             mPref = new DeckPreferenceHack();
+            //#6068 - constructor can call finish()
+            if (this.isFinishing()) {
+                return;
+            }
             mPref.registerOnSharedPreferenceChangeListener(this);
 
             this.addPreferencesFromResource(R.xml.deck_options);

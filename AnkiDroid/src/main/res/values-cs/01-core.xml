@@ -122,7 +122,7 @@
     <string name="menu_suspend">Vyřadit</string>
     <string name="menu_delete_note">Odstranit poznámku</string>
     <string name="menu_flag">Příznak</string>
-    <string name="menu_flag_card">Flag card</string>
+    <string name="menu_flag_card">Příznak</string>
     <string name="menu_flag_card_zero">Žádný příznak</string>
     <string name="menu_flag_card_one">Červený příznak</string>
     <string name="menu_flag_card_two">Oranžový příznak</string>
@@ -133,11 +133,17 @@
     <string name="menu_search">Vyhledat v %1$s</string>
     <string name="menu_mark_note">Označit poznámku</string>
     <string name="menu_unmark_note">Odznačit poznámku</string>
+    <string name="menu_toggle_mic_tool_bar">Check Pronunciation</string>
     <string name="new_deck">Vytvořit balíček</string>
     <string name="create">Vytvořit</string>
     <string name="new_dynamic_deck">Vytvořit filtrovaný balíček</string>
     <string name="night_mode">Noční režim</string>
     <string name="directory_inaccessible">AnkiDroid adresář není přístupný</string>
+    <!--This is shown when AnkiDroid starts up with no storage permissions.
+    The user is taken to the "App Info" screen, and needs to click "Permissions" and
+    grant AnkiDroid the \'Storage\' permission. This needs to be a fairly generic message as implementations
+    of the permissions/app info screen will differ between devices. -->
+    <string name="startup_no_storage_permission">Please grant AnkiDroid the ‘Storage’ permission to continue</string>
     <!--
         The time_quantities are units of time. They are used without
         plurals or dots.
@@ -155,6 +161,7 @@
     <string name="rebuild_cram_deck">Rekonstrukce balíčku šprtání.\nProsím čekejte...</string>
     <string name="rebuild_cram_label">Znovu sestavit</string>
     <string name="empty_cram_label">Vyprázdnit</string>
+    <string name="create_subdeck">Create subdeck</string>
     <string name="empty_cram_deck">Vyprazdňování balíčku šprtání.\nProsím čekejte...</string>
     <string name="custom_study_deck_name">Dodatečné procvičování</string>
     <string name="custom_study_deck_exists">Nejdříve prosím přejmenujte balíček dodatečného tréninku.</string>
@@ -184,6 +191,7 @@
     <string name="card_template_editor_back">Šablona rubu</string>
     <string name="card_template_editor_styling">Styl</string>
     <string name="card_template_editor_menu_delete">Odstranit</string>
+    <string name="card_template_editor_menu_card_browser_appearance">Card Browser Appearance</string>
     <string name="card_template_editor_cant_delete">Je vyžadován alespoň jeden typ karty.</string>
     <plurals name="card_template_editor_confirm_delete">
         <item quantity="one">Odstranit typ karty \'%2$s\' a jeho %1$d kartu?</item>
@@ -192,9 +200,14 @@
         <item quantity="other">Odstranit typ karty \'%2$s\' a jeho %1$d karet?</item>
     </plurals>
     <string name="invalid_template">Karta nemůže být vytvořena</string>
-    <string name="card_template_editor_would_delete_note"> Odstraněním tohoto typu karty můžete způsobit, že jedna nebo         více poznámek budou odstraněny. Nejprve vytvořte nový typ karty.</string>
+    <string name="card_template_editor_would_delete_note">Removing this card type would cause one or more notes to be deleted. Please create and save a new card type first.</string>
+    <string name="card_template_editor_save_error">Unable to save card template changes: %s</string>
     <string name="template_for_current_card_deleted">Typ karty současné karty byl odstraněn.</string>
+    <!-- Card Browser Appearance -->
+    <string name="card_template_browser_appearance_title">Browser appearance</string>
     <!-- Permissions -->
     <string name="read_write_permission_label">Čtení a zápis do AnkiDroid databáze</string>
     <string name="read_write_permission_description">spravovat stávající poznámky, karty, typy poznámek a balíčky, a také vytvářet nové</string>
+    <string name="card_browser_label">Card Browser</string>
+    <string name="card_browser_context_menu">Card Browser</string>
 </resources>

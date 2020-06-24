@@ -79,6 +79,8 @@
     <string name="image_zoom">Povečava slike</string>
     <string name="button_size">Velikost gumba za odgovor</string>
     <string name="card_browser_font_size">Umer. pisave brs. kartic</string>
+    <string name="card_browser_hide_media">Display filenames in card browser</string>
+    <string name="card_browser_hide_media_summary">Display media filenames in the card browser question/answer fields</string>
     <string name="col_path">Mapa AnkiDroid</string>
     <string name="fullscreen_review">Celozaslonski način</string>
     <string name="full_screen_off">Izklopljen</string>
@@ -92,6 +94,8 @@
     </string-array>
     <string name="gestures">Omogoči poteze</string>
     <string name="gestures_summ">Dodeli poteze dejanjem, kot sta odgovarjanje in urejanje kartic.</string>
+    <string name="gestures_allow_links">Ignore touch gestures on links</string>
+    <string name="gestures_allow_links_summary">Touch gestures will not be processed if a link/hint is pressed.</string>
     <string name="gestures_swipe_up">Potegni gor</string>
     <string name="gestures_swipe_down">Potegni dol</string>
     <string name="gestures_swipe_left">Potegni levo</string>
@@ -103,6 +107,8 @@
     <string name="gestures_tap_right">Dotik na desni</string>
     <string name="more_scrolling_buttons">eReader</string>
     <string name="more_scrolling_buttons_summ">Za pomik uporabi tudi gumbe kanji/katakana, emoji/kao-moji</string>
+    <string name="card_browser_enable_external_context_menu">‘%s’ Menu</string>
+    <string name="card_browser_enable_external_context_menu_summary">Enables the ‘%s’ context menu globally</string>
     <string name="double_scrolling_gap">Dvojni pomik</string>
     <string name="double_scrolling_gap_summ">Podvoji razmik pomikanja z eReaderjem</string>
     <string name="swipe_sensitivity">Občutljivost potegov</string>
@@ -116,10 +122,6 @@
     <string name="automatic_sync_choice">Samodejna sinhronizacija</string>
     <string name="automatic_sync_choice_summ">Samodejni sinhroniziraj ob zagonu/zapiranju programa, če je bila
         zadnja sinhronizacija pred več kot 10-mi minutami.</string>
-    <string name="fix_hebrew_text">Popravek za hebrejske samoglasnike</string>
-    <string name="fix_hebrew_text_summ">Zaobidenje za pravilen izris hebrejskih samoglasnikov.</string>
-    <string name="fix_hebrew_instructions">Ta nastavitev zaobide Androidov algoritem RTL, da pravilno prikaže hebrejsko besedilo s samoglasniki.\n\nDa bi to delovalo, morate prejeti pisavo Tohu.ttf in jo ročno kopirati v\n\"%s/fonts/”\n\nSvojih kartic vam ne bo treba spremeniti.</string>
-    <string name="fix_hebrew_download_font">Prejmi pisavo</string>
     <string name="day_theme">Dnevna tema</string>
     <string name="night_theme">Nočna tema</string>
     <string name="default_font">Privzeta pisava</string>
@@ -150,6 +152,8 @@
     <string name="pref_backup_max">Največje št. varnostnih kopij</string>
     <string name="show_estimates">Prikaži čas gumba</string>
     <string name="show_estimates_summ">Prikaži naslednji čas pregleda na gumbih za odgovor</string>
+    <string name="show_top_bar">Show Top Bar</string>
+    <string name="show_top_bar_summ">Show card counts, flag and mark in top bar</string>
     <string name="show_progress">Prikaži preostale</string>
     <string name="show_progress_summ">Prikaži število preostalih kartic</string>
     <string name="show_eta">Prikaži pre. čas</string>

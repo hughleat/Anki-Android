@@ -79,6 +79,8 @@
     <string name="image_zoom">Ampliar imaxe</string>
     <string name="button_size">Tamaño do botón de resposta</string>
     <string name="card_browser_font_size">Tamaño da fonte do buscador de cartóns</string>
+    <string name="card_browser_hide_media">Display filenames in card browser</string>
+    <string name="card_browser_hide_media_summary">Display media filenames in the card browser question/answer fields</string>
     <string name="col_path">AnkiDroid directory</string>
     <string name="fullscreen_review">Modo pantalla completa</string>
     <string name="full_screen_off">Desactivado</string>
@@ -92,6 +94,8 @@
     </string-array>
     <string name="gestures">Activar xestos</string>
     <string name="gestures_summ">Assign gestures to actions such as answering and editing cards.</string>
+    <string name="gestures_allow_links">Ignore touch gestures on links</string>
+    <string name="gestures_allow_links_summary">Touch gestures will not be processed if a link/hint is pressed.</string>
     <string name="gestures_swipe_up">Esvarar cara arriba</string>
     <string name="gestures_swipe_down">Evarar cara abaixo</string>
     <string name="gestures_swipe_left">Esvara á esquerda</string>
@@ -103,6 +107,8 @@
     <string name="gestures_tap_right">Tocar á dereita</string>
     <string name="more_scrolling_buttons">eReader</string>
     <string name="more_scrolling_buttons_summ">Tamén podes empregar os botóns kanji/katakana e emoji/kao-moji para desprazamento</string>
+    <string name="card_browser_enable_external_context_menu">‘%s’ Menu</string>
+    <string name="card_browser_enable_external_context_menu_summary">Enables the ‘%s’ context menu globally</string>
     <string name="double_scrolling_gap">Desprazamento duplo</string>
     <string name="double_scrolling_gap_summ">Duplicar a distancia de desprazamento co eReader</string>
     <string name="swipe_sensitivity">Sensibilidade do esvarado</string>
@@ -116,10 +122,6 @@
     <string name="automatic_sync_choice">Sincronización automática</string>
     <string name="automatic_sync_choice_summ">Sincronizar autom. ao iniciar/saír da aplicación se pasaron máis de 10
         minutos dende a última sincronización.</string>
-    <string name="fix_hebrew_text">Corrección para vogais hebraicas</string>
-    <string name="fix_hebrew_text_summ">Solución para amosar as vogais hebraicas correctamente.</string>
-    <string name="fix_hebrew_instructions">This setting bypasses the RTL algorithm of Android to show Hebrew text with vowels correctly.\n\nFor this to work, you need to download font Tohu.ttf and copy it manually to\n“%s/fonts/”\n\nYou won’t have to modify your cards.</string>
-    <string name="fix_hebrew_download_font">Descargar fonte</string>
     <string name="day_theme">Day theme</string>
     <string name="night_theme">Night theme</string>
     <string name="default_font">Fonte por defecto</string>
@@ -150,6 +152,8 @@
     <string name="pref_backup_max">Número máximo de copias de seguranza</string>
     <string name="show_estimates">Amosar o botón de tempo</string>
     <string name="show_estimates_summ">Show next review time on answer buttons</string>
+    <string name="show_top_bar">Show Top Bar</string>
+    <string name="show_top_bar_summ">Show card counts, flag and mark in top bar</string>
     <string name="show_progress">Amosar restantes</string>
     <string name="show_progress_summ">Amosar o contador de cartóns restantes</string>
     <string name="show_eta">Show ETA</string>

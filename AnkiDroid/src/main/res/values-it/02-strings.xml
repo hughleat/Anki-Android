@@ -64,16 +64,17 @@
     <string name="hide_whiteboard">Nascondi lavagna</string>
     <string name="clear_whiteboard">Pulisci lavagna</string>
     <string name="replay_audio">Riproduci audio</string>
+    <string name="toggle_mic_tool_bar">Controlla la pronuncia</string>
     <string name="leech_suspend_notification">Carta contrassegnata come sanguisuga e sospesa</string>
     <string name="leech_notification">Carta contrassegnata come sanguisuga</string>
     <string name="corrupt_font">File dei caratteri corrotto %s</string>
-    <string name="webview_crash_unknown">Unknown error</string>
-    <string name="webview_crash_unknwon_detailed">This was caused by an internal error in the WebView</string>
-    <string name="webview_crash_oom">Out of Memory</string>
+    <string name="webview_crash_unknown">Errore sconosciuto</string>
+    <string name="webview_crash_unknwon_detailed">Questo è stato causato da un errore interno nella WebView</string>
+    <string name="webview_crash_oom">Memoria insufficiente</string>
     <string name="webview_crash_oom_details">The WebView was terminated by the system. This typically happens when the application runs out of memory, often due to large fonts or media.</string>
     <string name="webview_crash_nonfatal">WebView renderer crashed. Cause: %s</string>
     <string name="webview_crash_fatal">Fatal Error: WebView renderer crashed. Cause: %s</string>
-    <string name="webview_crash_loop_dialog_title">System WebView Rendering Failure</string>
+    <string name="webview_crash_loop_dialog_title">Errore di restituzione grafica del sistema WebView</string>
     <string name="webview_crash_loop_dialog_content">System WebView failed to render card \'%1$s\'.\n %2$s</string>
     <!-- Browser -->
     <string-array name="browser_column1_headings">
@@ -90,11 +91,11 @@
         <item>Errori</item>
         <item>Ripetizioni</item>
         <item>Intervallo</item>
-        <item>Ease</item>
+        <item>Facilità</item>
         <item>Due</item>
-        <item>Changed</item>
-        <item>Created</item>
-        <item>Edited</item>
+        <item>Modificato</item>
+        <item>Creato</item>
+        <item>Modificato</item>
     </string-array>
     <!-- Custom study options -->
     <string name="custom_study_increase_new_limit">Aumenta il limite odierno di carte nuove</string>
@@ -108,9 +109,12 @@
     <string name="cardeditor_title_add_note">Aggiungi nota</string>
     <string name="cardeditor_title_edit_card">Modifica nota</string>
     <string name="discard_unsaved_changes">Chiudere senza salvare i dati inseriti?</string>
-    <string name="factadder_saving_error">Errore salvataggio nota</string>
+    <string name="note_editor_no_cards_created">Nessuna carta creata. Si prega di compilare altri campi</string>
+    <string name="note_editor_no_first_field">Il primo campo è vuoto</string>
+    <string name="note_editor_no_cloze_delations">This note type must contain cloze deletions</string>
+    <string name="note_editor_no_cards_created_all_fields">The current note type did not produce any cards.\nPlease choose another note type, or click ‘Cards’ and add a field substitution</string>
     <string name="saving_facts">Salvataggio nota</string>
-    <string name="saving_model">Saving note type</string>
+    <string name="saving_model">Salvataggio tipo di nota</string>
     <string name="add">Aggiungi</string>
     <string name="save">Salva</string>
     <string name="close">Chiudi</string>
@@ -130,8 +134,8 @@
     </plurals>
     <string name="studyoptions_welcome_title">Benvenuto in AnkiDroid</string>
     <string name="fact_adder_intent_title">Carta AnkiDroid</string>
-    <string name="note_editor_add_note">Add note</string>
-    <string name="note_editor_copy_note">Copy note</string>
+    <string name="note_editor_add_note">Aggiungi nota</string>
+    <string name="note_editor_copy_note">Copia nota</string>
     <string name="card_editor_copy_card">Copia carta</string>
     <string name="card_editor_reposition_card">Riposiziona</string>
     <string name="card_editor_reset_card">Reimposta progresso</string>
@@ -161,12 +165,19 @@
     <string name="import_message_replace_confirm">La tua collezione esistente verrà eliminata e sostituita con i dati del file %s. Sei sicuro?</string>
     <string name="import_message_add_confirm">Aggiungere \"%s\" alla collezione? Può richiedere molto tempo</string>
     <string name="import_log_no_apkg">Questo non è un file di pacchetto Anki valido</string>
-    <string name="import_error_unhandled_request">Unable to process import request</string>
-    <string name="import_error_exception">Failed to import package\n\n%s</string>
+    <string name="import_log_failed_unzip">Failed to unzip apkg: %s</string>
+    <string name="import_log_failed_copy_to">Failed to copy apkg to %s</string>
+    <string name="import_log_failed_validate">apkg failed validation</string>
+    <string name="import_log_insufficient_space">There is not enough space to unzip the package. Needed %1$d, available %2$d</string>
+    <string name="import_succeeded_but_check_database">Data import succeeded but post-import cleanup failed. Run check database later. Root cause: %s</string>
+    <string name="import_error_unhandled_request">Impossibile elaborare la richiesta di importazione</string>
+    <string name="import_error_exception">Impossibile importare il pacchetto\n\n%s</string>
     <string name="import_error_not_apkg_extension">Il file \"%s\" non ha estensione .apkg o .colpkg</string>
+    <string name="import_error_load_imported_database">Anki Database (.anki2) replacements are not yet supported. Please see the manual for replacement instructions.</string>
     <string name="import_error_content_provider">Il file selezionato non ha potuto essere importato automaticamente da AnkiDroid. Consulta il manuale utente per importare manualmente i file anki: \n %s</string>
+    <string name="import_error_copy_file_to_cache">copyFileToCache() failed (possibly out of storage space)</string>
     <string name="import_replacing">Sostituzione collezione&#8230;</string>
-    <string name="import_interrupted">Import interrupted</string>
+    <string name="import_interrupted">Importazione interrotta</string>
     <string name="export_include_schedule">Includi schedulazione</string>
     <string name="export_include_media">Includi Media</string>
     <string name="confirm_apkg_export">Esportare la collezione come pacchetto Anki?</string>
@@ -246,9 +257,20 @@
     <string name="export_v2_dummy_note">Questo file richiede una versione più recente di Anki.</string>
     <string name="export_v2_forbidden">Passa al pianificatore V1 prima di esportare un singolo mazzo con le informazioni di pianificazione.</string>
     <!-- Placed in a snackbar with a long URL. Limit the length and move the URL to the start of the string -->
-    <string name="activity_start_failed_load_url">Loading \'%s\' failed.</string>
-    <string name="activity_start_failed">The system does not have an app installed that can perform this action.</string>
+    <string name="activity_start_failed_load_url">Caricamento di %s fallito.</string>
+    <string name="activity_start_failed">Il sistema non ha un\'applicazione installata che può eseguire questa azione.</string>
     <string name="multimedia_editor_image_compression_failed"><![CDATA[Camera images may be large. You may wish to compress & resize images in the media directory]]></string>
-    <string name="no_browser_notification">No browser found，please visit web page by pc or mobile: </string>
-    <string name="no_outgoing_link_in_cardbrowser">External page link in card is not supported.</string>
+    <string name="no_browser_notification">Nessun browser trovato, visita la pagina web tramite pc o cellulare: </string>
+    <string name="no_outgoing_link_in_cardbrowser">Collegamento di pagina esterna nella carta non è supportato.</string>
+    <!-- The name of the deck which corrupt cards will be moved to -->
+    <string name="check_integrity_recovered_deck_name">Carte recuperate</string>
+    <!-- Deckpicker Background -->
+    <string name="background_image_title">Sfondo</string>
+    <string name="choose_an_image">Scegli un\'immagine</string>
+    <!-- Card Template Browser Appearance -->
+    <string name="restore_default">Ripristina predefiniti</string>
+    <string name="reviewer_tts_cloze_spoken_replacement">Blank</string>
+    <!-- in options menu & Navigation Drawer -->
+    <string name="ankidroid_turn_on_fullscreen_nav_drawer">Please turn on fullscreen to use Show Navigation Drawer using JavaScript.</string>
+    <string name="ankidroid_turn_on_fullscreen_options_menu">Please turn on fullscreen to use Show Options Menu using JavaScript.</string>
 </resources>

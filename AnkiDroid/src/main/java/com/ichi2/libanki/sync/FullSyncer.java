@@ -16,9 +16,7 @@
 
 package com.ichi2.libanki.sync;
 
-import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabaseCorruptException;
-import android.net.Uri;
 
 import com.ichi2.anki.AnkiDroidApp;
 import com.ichi2.anki.CollectionHelper;
@@ -26,7 +24,6 @@ import com.ichi2.anki.R;
 import com.ichi2.anki.exception.UnknownHttpResponseException;
 import com.ichi2.async.Connection;
 import com.ichi2.libanki.Collection;
-import com.ichi2.libanki.Consts;
 import com.ichi2.libanki.DB;
 import com.ichi2.libanki.Utils;
 import com.ichi2.utils.VersionUtils;
@@ -79,6 +76,7 @@ public class FullSyncer extends HttpSyncer {
         }
         String path;
         if (mCol != null) {
+            Timber.i("Closing collection for full sync");
             // Usual case where collection is non-null
             path = mCol.getPath();
             mCol.close();
@@ -91,8 +89,10 @@ public class FullSyncer extends HttpSyncer {
         String tpath = path + ".tmp";
         try {
             super.writeToFile(cont, tpath);
+            Timber.d("Full Sync - Downloaded temp file");
             FileInputStream fis = new FileInputStream(tpath);
             if ("upgradeRequired".equals(super.stream2String(fis, 15))) {
+                Timber.w("Full Sync - 'Upgrade Required' message received");
                 return new Object[]{"upgradeRequired"};
             }
         } catch (FileNotFoundException e) {
@@ -122,11 +122,14 @@ public class FullSyncer extends HttpSyncer {
                 tempDb.close();
             }
         }
+        Timber.d("Full Sync: Downloaded file was not corrupt");
         // overwrite existing collection
         File newFile = new File(tpath);
         if (newFile.renameTo(new File(path))) {
+            Timber.i("Full Sync Success: Overwritten collection with downloaded file");
             return new Object[] { "success" };
         } else {
+            Timber.w("Full Sync: Error overwriting collection with downloaded file");
             return new Object[] { "overwriteError" };
         }
     }

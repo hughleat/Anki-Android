@@ -29,6 +29,7 @@ import android.net.Uri;
 import android.text.Spanned;
 
 import androidx.annotation.NonNull;
+import android.os.StatFs;
 
 import com.ichi2.anki.AnkiFont;
 import com.ichi2.anki.CollectionHelper;
@@ -58,6 +59,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collection;
+import java.util.Enumeration;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
@@ -67,8 +69,8 @@ import java.util.Random;
 import java.util.TimeZone;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipFile;
+import org.apache.commons.compress.archivers.zip.ZipArchiveEntry;
+import org.apache.commons.compress.archivers.zip.ZipFile;
 
 import timber.log.Timber;
 
@@ -295,17 +297,28 @@ public class Utils {
     /**
      * Strip HTML but keep media filenames
      */
-    public static String stripHTMLMedia(String s) {
-        Matcher imgMatcher = imgPattern.matcher(s);
-        return stripHTML(imgMatcher.replaceAll(" $1 "));
+    public static String stripHTMLMedia(@NonNull String s) {
+        return stripHTMLMedia(s, " $1 ");
     }
+
+
+    public static String stripHTMLMedia(@NonNull String s, String replacement) {
+        Matcher imgMatcher = imgPattern.matcher(s);
+        return stripHTML(imgMatcher.replaceAll(replacement));
+    }
+
 
     /**
      * Strip sound but keep media filenames
      */
     public static String stripSoundMedia(String s) {
+        return stripSoundMedia(s, " $1 ");
+    }
+
+
+    public static String stripSoundMedia(String s, String replacement) {
         Matcher soundMatcher = soundPattern.matcher(s);
-        return soundMatcher.replaceAll(" $1 ");
+        return soundMatcher.replaceAll(replacement);
     }
 
 
@@ -666,7 +679,7 @@ public class Utils {
             zipEntryToFilenameMap = new HashMap<>();
         }
         for (String requestedEntry : zipEntries) {
-            ZipEntry ze = zipFile.getEntry(requestedEntry);
+            ZipArchiveEntry ze = zipFile.getEntry(requestedEntry);
             if (ze != null) {
                 String name = ze.getName();
                 if (zipEntryToFilenameMap.containsKey(name)) {
@@ -698,6 +711,36 @@ public class Utils {
      */
     public static boolean isInside(@NonNull File file, @NonNull File dir) throws IOException {
         return file.getCanonicalPath().startsWith(dir.getCanonicalPath());
+    }
+
+    /**
+     * Given a ZipFile, iterate through the ZipEntries to determine the total uncompressed size
+     * TODO warning: vulnerable to resource exhaustion attack if entries contain spoofed sizes
+     *
+     * @param zipFile ZipFile of unknown total uncompressed size
+     * @return total uncompressed size of zipFile
+     */
+    public static long calculateUncompressedSize(ZipFile zipFile) {
+
+        long totalUncompressedSize = 0;
+        Enumeration<ZipArchiveEntry> e = zipFile.getEntries();
+        while (e.hasMoreElements()) {
+            ZipArchiveEntry ze = e.nextElement();
+            totalUncompressedSize += ze.getSize();
+        }
+
+        return totalUncompressedSize;
+    }
+
+
+    /**
+     * Determine available storage space
+     *
+     * @param path the filesystem path you need free space information on
+     * @return long indicating the bytes available for that path
+     */
+    public static long determineBytesAvailable(String path) {
+        return CompatHelper.getCompat().getAvailableBytes(new StatFs(path));
     }
 
 
