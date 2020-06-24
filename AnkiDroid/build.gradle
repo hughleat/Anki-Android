@@ -16,13 +16,15 @@ android {
     compileSdkVersion 28
 
     defaultConfig {
-        applicationId "com.ichi2.anki"
+        applicationId "com.ichi2.anki.mattie"
         minSdkVersion 15
         //noinspection OldTargetApi
         targetSdkVersion 28
         testApplicationId "com.ichi2.anki.tests"
         vectorDrawables.useSupportLibrary = true
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
+
+        resConfigs "en"
 
         // This enables long timeouts required on slow ARM emulators, e.g. Travis
         adbOptions {
