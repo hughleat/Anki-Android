@@ -83,7 +83,8 @@ public class Info extends AnkiActivity {
             }
         });
 
-        Button marketButton = findViewById(R.id.market);
+        // HJL: Removed to get rid of any chance Google thinks this is "ad that is not clearly marked as an ad".
+        /*Button marketButton = findViewById(R.id.market);
         marketButton.setOnClickListener(arg0 -> {
             if (mType == TYPE_ABOUT) {
                 final String intentUri = getString(
@@ -106,7 +107,7 @@ public class Info extends AnkiActivity {
                     break;
             }
             finishWithAnimation();
-        });
+        });*/
 
         StringBuilder sb = new StringBuilder();
         switch (mType) {
@@ -122,25 +123,16 @@ public class Info extends AnkiActivity {
                 sb.append("<html><style>body {color:").append(textColor).append(";}</style>");
 
                 sb.append("<body text=\"#000000\" link=\"#E37068\" alink=\"#E37068\" vlink=\"#E37068\">");
-                sb.append(
-                        String.format(content[0], res.getString(R.string.app_name), res.getString(R.string.link_anki)))
-                        .append("<br/><br/>");
-                sb.append(
-                        String.format(content[1], res.getString(R.string.link_issue_tracker),
-                                res.getString(R.string.link_wiki), res.getString(R.string.link_forum))).append(
-                        "<br/><br/>");
-                sb.append(
-                        String.format(content[2], res.getString(R.string.link_wikipedia_open_source),
-                                res.getString(R.string.link_contribution))).append(" ");
-                sb.append(
-                        String.format(content[3], res.getString(R.string.link_translation),
-                                res.getString(R.string.link_donation))).append("<br/><br/>");
-                sb.append(
-                        String.format(content[4], res.getString(R.string.licence_wiki),
-                                res.getString(R.string.link_source))).append("<br/><br/>");
+                sb.append(String.format(content[0], res.getString(R.string.app_name))).append("<br/><br/>");
+                sb.append(content[1]).append("<br/><br/>");
+                sb.append(content[2]).append("<br/><br/>");
+                sb.append(content[3]).append("<br/><br/>");
+                sb.append(content[4]).append("<br/><br/>");
                 sb.append("</body></html>");
                 webView.loadDataWithBaseURL("", sb.toString(), "text/html", "utf-8", null);
-                ((Button) findViewById(R.id.market)).setText(res.getString(R.string.info_rate));
+                // HJL: Blanking
+                //((Button) findViewById(R.id.market)).setText(res.getString(R.string.info_rate));
+                ((Button) findViewById(R.id.market)).setText("Unused Button");
                 Button debugCopy = (findViewById(R.id.debug_info));
                 debugCopy.setText(res.getString(R.string.feedback_copy_debug));
                 debugCopy.setVisibility(View.VISIBLE);

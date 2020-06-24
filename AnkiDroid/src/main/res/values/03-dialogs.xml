@@ -35,11 +35,11 @@
     <string name="tts_no_tts">Don’t speak</string>
 
     <string-array name="about_content">
-        <item><![CDATA[<h2>%1$s:<br/>Flashcards for Android</h2>AnkiDroid is a flashcard application which is fully compatible with the desktop software <a href=\"%2$s\">Anki</a>. You can create, download and learn material on both AnkiDroid or Anki Desktop, and synchronize them easily with AnkiWeb.]]></item>
-        <item><![CDATA[To help us make AnkiDroid better, please report bugs to <a href=\"%1$s\">the issue tracker</a>; new feature ideas are very welcome too. Find answers on <a href=\"%2$s\">the wiki</a> or start a discussion on <a href=\"%3$s\">the forum</a>.]]></item>
-        <item><![CDATA[AnkiDroid is <a href=\"%1$s\">open source software<a/>, so everyone is encouraged to <a href=\"%2$s\">become a contributor</a> :-)]]></item>
-        <item><![CDATA[Non-developers can also help. For instance, you can <a href=\"%1$s\">help translate</a> AnkiDroid, update the wiki, provide screenshots, or blog about AnkiDroid.]]></item>
-        <item><![CDATA[AnkiDroid is released under the <a href=\"%1$s\">GNU-GPL v3 license</a> and the source code is available <a href=\"%2$s\">on GitHub</a>.]]></item>
+        <item><![CDATA[<h2>%1$s:<br/>Flashcards for Android</h2>This is a copy of AnkiDroid that I built for my daughter. It has two changes:]]></item>
+        <item><![CDATA[It tries to avoid scheduling cards on the weekend, Christmas and her birthday.]]></item>
+        <item><![CDATA[It has a Javascript object called AnkiJS that cards can use. This object provides the card content as JSON and allows new cards to be create from a JSON object. This lets me write randomised maths cards for her and then save them from the card if they are interesting.]]></item>
+        <item><![CDATA[I need this on the Play Store because I can not seem to side load apps on her Pixel Slate.]]></item>
+        <item><![CDATA[If you are not my daughter then you probably do not want this app.]]></item>
     </string-array>
 
     <string name="preview_title">Preview</string>
